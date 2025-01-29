@@ -21,8 +21,12 @@
   },
   "homepage": "https://github.com/Extractoro/finance-tracker#readme",
   "dependencies": {
+    "@apollo/server": "^4.11.3",
+    "@nestjs/apollo": "^13.0.2",
+    "@nestjs/graphql": "^13.0.2",
     "concurrently": "^9.1.2",
-    "eslint": "^9.19.0"
+    "eslint": "^9.19.0",
+    "graphql": "^16.10.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.6.1",

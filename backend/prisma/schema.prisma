@@ -1,0 +1,90 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model category {
+  category_id           Int                     @id @default(autoincrement())
+  name                  String                  @db.VarChar(50)
+  user_id               Int
+  created_at            DateTime?               @default(now()) @db.Timestamp(0)
+  updated_at            DateTime?               @default(now()) @db.Timestamp(0)
+  users                 users                   @relation(fields: [user_id], references: [user_id], onDelete: NoAction, map: "R_2")
+  transactions_category transactions_category[]
+
+  @@index([user_id], map: "R_2")
+}
+
+model goals {
+  goal_id        Int       @id @default(autoincrement())
+  name           String    @db.VarChar(50)
+  target_amount  Decimal?  @db.Decimal(10, 2)
+  current_amount Decimal?  @db.Decimal(10, 2)
+  deadline       DateTime? @db.Timestamp(0)
+  user_id        Int
+  created_at     DateTime? @default(now()) @db.Timestamp(0)
+  updated_at     DateTime? @default(now()) @db.Timestamp(0)
+  users          users     @relation(fields: [user_id], references: [user_id], onDelete: NoAction, map: "R_4")
+
+  @@index([user_id], map: "R_4")
+}
+
+model tags {
+  tag_id            Int                 @id @default(autoincrement())
+  name              String              @db.VarChar(50)
+  created_at        DateTime?           @default(now()) @db.Timestamp(0)
+  updated_at        DateTime?           @default(now()) @db.Timestamp(0)
+  transactions_tags transactions_tags[]
+}
+
+model transactions {
+  transaction_id        Int                     @id
+  type                  String?                 @db.VarChar(20)
+  amount                Decimal?                @db.Decimal(10, 2)
+  date                  DateTime?               @db.Timestamp(0)
+  description           String?                 @db.Text
+  user_id               Int
+  created_at            DateTime?               @default(now()) @db.Timestamp(0)
+  updated_at            DateTime?               @default(now()) @db.Timestamp(0)
+  users                 users                   @relation(fields: [user_id], references: [user_id], onDelete: NoAction, map: "R_1")
+  transactions_category transactions_category[]
+  transactions_tags     transactions_tags[]
+
+  @@index([user_id], map: "R_1")
+}
+
+model transactions_category {
+  category_id    Int
+  transaction_id Int
+  category       category     @relation(fields: [category_id], references: [category_id], onDelete: NoAction, map: "R_12")
+  transactions   transactions @relation(fields: [transaction_id], references: [transaction_id], onDelete: NoAction, map: "R_13")
+
+  @@id([category_id, transaction_id])
+  @@index([transaction_id], map: "R_13")
+}
+
+model transactions_tags {
+  transaction_id Int
+  tag_id         Int
+  transactions   transactions @relation(fields: [transaction_id], references: [transaction_id], onDelete: NoAction, map: "R_8")
+  tags           tags         @relation(fields: [tag_id], references: [tag_id], onDelete: NoAction, map: "R_9")
+
+  @@id([transaction_id, tag_id])
+  @@index([tag_id], map: "R_9")
+}
+
+model users {
+  user_id      Int            @id @default(autoincrement())
+  name         String         @db.VarChar(50)
+  email        String         @unique(map: "email") @db.VarChar(100)
+  password     String         @db.VarChar(100)
+  created_at   DateTime?      @default(now()) @db.Timestamp(0)
+  updated_at   DateTime?      @default(now()) @db.Timestamp(0)
+  category     category[]
+  goals        goals[]
+  transactions transactions[]
+}
