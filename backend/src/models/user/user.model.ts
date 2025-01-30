@@ -1,17 +1,21 @@
-import { Field, Int, ObjectType } from '@nestjs/graphql';
+import { Field, ObjectType } from '@nestjs/graphql';
+import { IsEmail, MinLength } from 'class-validator';
 
 @ObjectType()
 export class UserModel {
-  @Field(() => Int)
-  user_id: number;
+  @Field()
+  user_id: string;
 
   @Field()
+  @MinLength(2)
   name: string;
 
   @Field()
+  @IsEmail()
   email: string;
 
   @Field()
+  @MinLength(8)
   password: string;
 
   @Field(() => Date, { nullable: true })

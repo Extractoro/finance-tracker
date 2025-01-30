@@ -1,16 +1,20 @@
-import { Field, InputType, Int } from '@nestjs/graphql';
+import { Field, InputType } from '@nestjs/graphql';
+import { IsEmail, MinLength } from 'class-validator';
 
 @InputType()
 export class UpdateUserInput {
-  @Field(() => Int)
-  user_id: number;
+  @Field()
+  user_id: string;
 
   @Field({ nullable: true })
-  name?: string;
+  @MinLength(2)
+  name: string;
 
   @Field({ nullable: true })
-  email?: string;
+  @IsEmail()
+  email: string;
 
   @Field({ nullable: true })
-  password?: string;
+  @MinLength(8)
+  password: string;
 }
