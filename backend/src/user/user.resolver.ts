@@ -2,6 +2,7 @@ import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { UserService } from './user.service';
 import { UserModel } from '../models/user/user.model';
 import { CreateUserInput } from '../models/user/create-user.input';
+import { UpdateUserInput } from '../models/user/update-user.input';
 
 @Resolver()
 export class UserResolver {
@@ -15,5 +16,10 @@ export class UserResolver {
   @Mutation(() => UserModel)
   async createUser(@Args('data') data: CreateUserInput) {
     return this.userService.createUser(data);
+  }
+
+  @Mutation(() => UserModel)
+  async updateUser(@Args('data') data: UpdateUserInput) {
+    return this.userService.updateUser(data);
   }
 }
