@@ -4,12 +4,16 @@ import { ConfirmSignupResponse } from '../models/auth/confirm-signup.model';
 import { SignupResponse } from '../models/auth/signup-response.model';
 import { SignupService } from './signup/signup.service';
 import { ConfirmSignupService } from './confirm-signup/confirm-signup.service';
+import { SigninResponse } from '../models/auth/signin-response.model';
+import { SigninInput } from '../models/auth/signin.input';
+import { SigninService } from './signin/signin.service';
 
 @Resolver()
 export class AuthResolver {
   constructor(
     // private readonly authService: AuthService,
     private readonly signupService: SignupService,
+    private readonly signinService: SigninService,
     private readonly confirmSignupService: ConfirmSignupService,
   ) {}
 
@@ -23,5 +27,10 @@ export class AuthResolver {
     @Args('token') token: string,
   ): Promise<ConfirmSignupResponse> {
     return this.confirmSignupService.confirmSignup(token);
+  }
+
+  @Mutation(() => SigninResponse)
+  async signIn(@Args('data') args: SigninInput): Promise<SigninResponse> {
+    return this.signinService.signIn(args);
   }
 }

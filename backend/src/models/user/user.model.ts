@@ -26,4 +26,7 @@ export class UserModel {
 
   @Field(() => Int)
   verify: number;
+
+  @Field(() => String, { nullable: true })
+  refresh_token?: string | null;
 }

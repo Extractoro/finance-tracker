@@ -17,4 +17,7 @@ export class UpdateUserInput {
   @Field({ nullable: true })
   @MinLength(8)
   password: string;
+
+  @Field({ nullable: true })
+  refresh_token?: string;
 }

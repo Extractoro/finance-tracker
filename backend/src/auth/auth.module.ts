@@ -7,6 +7,7 @@ import { UuidModule } from 'nestjs-uuid';
 import { MailModule } from '../mail/mail.module';
 import { SignupModule } from './signup/signup.module';
 import { ConfirmSignupModule } from './confirm-signup/confirm-signup.module';
+import { SigninModule } from './signin/signin.module';
 import jwtConfig from '../configs/jwt.config';
 
 @Module({
@@ -16,6 +17,7 @@ import jwtConfig from '../configs/jwt.config';
     MailModule,
     SignupModule,
     ConfirmSignupModule,
+    SigninModule,
   ],
   providers: [PrismaService, AuthResolver, AuthService],
   exports: [AuthService],

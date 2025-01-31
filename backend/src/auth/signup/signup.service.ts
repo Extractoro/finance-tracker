@@ -18,50 +18,53 @@ export class SignupService {
   ) {}
 
   async signUp({ password, ...rest }: SignupInput): Promise<SignupResponse> {
-    const existingUser = await this.prisma.users.findUnique({
-      where: { email: rest.email },
-    });
-
-    if (existingUser) {
-      throw new ApolloError(
-        `User with this email ${rest.email} has already been registered`,
-        'EMAIL_ALREADY_REGISTERED',
-      );
-    }
-
-    const userId: string = this.uuidService.generate({ version: 4 });
-    const payload = { sub: userId, name: rest.name };
-    const accessToken: string = await this.jwtService.signAsync(payload);
-    const hashedPassword: string = await argon2.hash(password);
-
     try {
-      await this.mailService.sendConfirmation(
-        { email: rest.email, name: rest.name },
-        accessToken,
-      );
+      const existingUser = await this.prisma.users.findUnique({
+        where: { email: rest.email },
+      });
+
+      if (existingUser) {
+        throw new ApolloError(
+          `User with this email ${rest.email} has already been registered`,
+          'EMAIL_ALREADY_REGISTERED',
+        );
+      }
+
+      const userId: string = this.uuidService.generate({ version: 4 });
+      const payload = { sub: userId, name: rest.name };
+      const accessToken: string = await this.jwtService.signAsync(payload);
+      const hashedPassword: string = await argon2.hash(password);
+
+      try {
+        await this.mailService.sendConfirmation(
+          { email: rest.email, name: rest.name },
+          accessToken,
+        );
+      } catch {
+        throw new ApolloError(
+          `Failed to send confirmation email to ${rest.email}`,
+          'SEND_CONFIRMATION_FAILED',
+        );
+      }
+
+      await this.prisma.users.create({
+        data: {
+          user_id: userId,
+          ...rest,
+          password: hashedPassword,
+        },
+      });
+
+      return {
+        success: true,
+        message: 'User registered successfully',
+        errorCode: null,
+      };
     } catch (error) {
-      console.error(
-        `Failed to send confirmation email to ${rest.email}`,
-        error,
-      );
       throw new ApolloError(
-        `Failed to send confirmation email to ${rest.email}`,
-        'SEND_CONFIRMATION_FAILED',
+        error.message || 'Signup failed',
+        error.code || 'SIGNUP_FAILED',
       );
     }
-
-    await this.prisma.users.create({
-      data: {
-        user_id: userId,
-        ...rest,
-        password: hashedPassword,
-      },
-    });
-
-    return {
-      success: true,
-      message: 'User registered successfully',
-      errorCode: null,
-    };
   }
 }
