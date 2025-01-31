@@ -1,4 +1,4 @@
-import { Field, ObjectType } from '@nestjs/graphql';
+import { Field, Int, ObjectType } from '@nestjs/graphql';
 import { IsEmail, MinLength } from 'class-validator';
 
 @ObjectType()
@@ -19,8 +19,11 @@ export class UserModel {
   password: string;
 
   @Field(() => Date, { nullable: true })
-  created_at: Date;
+  created_at: Date | null;
 
   @Field(() => Date, { nullable: true })
-  updated_at: Date;
+  updated_at: Date | null;
+
+  @Field(() => Int)
+  verify: number;
 }
