@@ -1,0 +1,14 @@
+import { Module } from '@nestjs/common';
+import { ConfirmSignupService } from './confirm-signup.service';
+import { JwtModule } from '@nestjs/jwt';
+import jwtConfig from '../../configs/jwt.config';
+import { UuidModule } from 'nestjs-uuid';
+import { MailModule } from '../../mail/mail.module';
+import { PrismaService } from '../../prisma.service';
+
+@Module({
+  imports: [JwtModule.register(jwtConfig), UuidModule, MailModule],
+  providers: [PrismaService, ConfirmSignupService],
+  exports: [ConfirmSignupService],
+})
+export class ConfirmSignupModule {}
