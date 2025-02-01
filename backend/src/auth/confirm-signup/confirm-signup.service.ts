@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from '../../prisma.service';
-import { ConfirmSignupResponse } from '../../models/auth/confirm-signup.model';
+import { ConfirmSignupResponse } from '../../models/auth/confirm-signup.response';
 import { UserModel } from '../../models/user/user.model';
 import { ApolloError } from 'apollo-server-express';
 

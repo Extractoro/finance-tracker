@@ -5,7 +5,7 @@ import { PrismaService } from '../../prisma.service';
 import { UuidService } from 'nestjs-uuid';
 import { ApolloError } from 'apollo-server-express';
 import { SignupInput } from '../../models/auth/signup.input';
-import { SignupResponse } from '../../models/auth/signup-response.model';
+import { SignupResponse } from '../../models/auth/signup.response';
 import * as argon2 from 'argon2';
 
 @Injectable()

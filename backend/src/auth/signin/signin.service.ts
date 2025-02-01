@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from '../../prisma.service';
-import { SigninResponse } from '../../models/auth/signin-response.model';
+import { SigninResponse } from '../../models/auth/signin.response';
 import { SigninInput } from '../../models/auth/signin.input';
 import { ApolloError } from 'apollo-server-express';
 import { UserModel } from '../../models/user/user.model';

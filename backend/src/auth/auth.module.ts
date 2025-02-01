@@ -8,6 +8,7 @@ import { MailModule } from '../mail/mail.module';
 import { SignupModule } from './signup/signup.module';
 import { ConfirmSignupModule } from './confirm-signup/confirm-signup.module';
 import { SigninModule } from './signin/signin.module';
+import { RefreshTokenModule } from './refresh-token/refresh-token.module';
 import jwtConfig from '../configs/jwt.config';
 
 @Module({
@@ -18,6 +19,7 @@ import jwtConfig from '../configs/jwt.config';
     SignupModule,
     ConfirmSignupModule,
     SigninModule,
+    RefreshTokenModule,
   ],
   providers: [PrismaService, AuthResolver, AuthService],
   exports: [AuthService],
