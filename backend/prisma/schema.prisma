@@ -86,6 +86,7 @@ model users {
   updated_at    DateTime?      @updatedAt @db.Timestamp(0)
   verify        Int            @default(0) @db.TinyInt
   refresh_token String?        @db.VarChar(200)
+  resetPasswordToken String?   @unique @db.VarChar(255)
   category      category[]
   goals         goals[]
   transactions  transactions[]

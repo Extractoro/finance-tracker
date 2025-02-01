@@ -23,4 +23,18 @@ export class MailService {
       },
     });
   }
+
+  async sendResetPassword(user: Partial<UserModel>, token: string) {
+    const url: string = `${this.configService.get('SERVER_URL')}/auth/reset?token=${token}`;
+
+    await this.mailerService.sendMail({
+      to: user.email,
+      subject: 'Reset a password on Finance Tracker!',
+      template: './reset.hbs',
+      context: {
+        name: user.name,
+        url,
+      },
+    });
+  }
 }

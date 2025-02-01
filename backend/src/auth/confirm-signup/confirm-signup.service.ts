@@ -4,6 +4,7 @@ import { PrismaService } from '../../prisma.service';
 import { ConfirmSignupResponse } from '../../models/auth/confirm-signup.response';
 import { UserModel } from '../../models/user/user.model';
 import { ApolloError } from 'apollo-server-express';
+import { ConfirmSignupInput } from '../../models/auth/confirm-signup.input';
 
 @Injectable()
 export class ConfirmSignupService {
@@ -12,7 +13,9 @@ export class ConfirmSignupService {
     private readonly prisma: PrismaService,
   ) {}
 
-  async confirmSignup(token: string): Promise<ConfirmSignupResponse> {
+  async confirmSignup({
+    token,
+  }: ConfirmSignupInput): Promise<ConfirmSignupResponse> {
     try {
       const payload = await this.jwtService.verifyAsync(token);
       const user: UserModel | null = await this.prisma.users.findUnique({

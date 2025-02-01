@@ -29,4 +29,7 @@ export class UserModel {
 
   @Field(() => String, { nullable: true })
   refresh_token?: string | null;
+
+  @Field(() => String, { nullable: true })
+  resetPasswordToken?: string | null;
 }

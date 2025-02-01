@@ -11,6 +11,13 @@ import { RefreshTokenResponse } from '../models/auth/refresh-token.response';
 import { RefreshTokenInput } from '../models/auth/refresh-token.input';
 import { AuthService } from './auth.service';
 import { RefreshTokenService } from './refresh-token/refresh-token.service';
+import { ConfirmSignupInput } from '../models/auth/confirm-signup.input';
+import { ForgetPasswordInput } from '../models/auth/forget-password.input';
+import { ForgetPasswordResponse } from '../models/auth/forget-password.response';
+import { ForgetPasswordService } from './forget-password/forget-password.service';
+import { ResetPasswordResponse } from '../models/auth/reset-password.response';
+import { ResetPasswordInput } from '../models/auth/reset-password.input';
+import { ResetPasswordService } from './reset-password/reset-password.service';
 
 @Resolver()
 export class AuthResolver {
@@ -20,6 +27,8 @@ export class AuthResolver {
     private readonly signinService: SigninService,
     private readonly confirmSignupService: ConfirmSignupService,
     private readonly refreshTokenService: RefreshTokenService,
+    private readonly forgetPasswordService: ForgetPasswordService,
+    private readonly resetPasswordService: ResetPasswordService,
   ) {}
 
   @Mutation(() => SignupResponse)
@@ -29,9 +38,9 @@ export class AuthResolver {
 
   @Mutation(() => ConfirmSignupResponse)
   async confirmSignup(
-    @Args('token') token: string,
+    @Args('data') args: ConfirmSignupInput,
   ): Promise<ConfirmSignupResponse> {
-    return this.confirmSignupService.confirmSignup(token);
+    return this.confirmSignupService.confirmSignup(args);
   }
 
   @Mutation(() => SigninResponse)
@@ -41,8 +50,22 @@ export class AuthResolver {
 
   @Mutation(() => RefreshTokenResponse)
   async refreshToken(
-    @Args('data') data: RefreshTokenInput,
+    @Args('data') args: RefreshTokenInput,
   ): Promise<RefreshTokenResponse> {
-    return this.refreshTokenService.refreshToken(data);
+    return this.refreshTokenService.refreshToken(args);
+  }
+
+  @Mutation(() => ForgetPasswordResponse)
+  async forgetPassword(
+    @Args('data') args: ForgetPasswordInput,
+  ): Promise<ForgetPasswordResponse> {
+    return this.forgetPasswordService.forgetPassword(args);
+  }
+
+  @Mutation(() => ResetPasswordResponse)
+  async resetPassword(
+    @Args('data') args: ResetPasswordInput,
+  ): Promise<ResetPasswordResponse> {
+    return this.resetPasswordService.resetPassword(args);
   }
 }
