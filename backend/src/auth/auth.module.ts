@@ -11,6 +11,7 @@ import { SigninModule } from './signin/signin.module';
 import { RefreshTokenModule } from './refresh-token/refresh-token.module';
 import { ForgetPasswordModule } from './forget-password/forget-password.module';
 import { ResetPasswordModule } from './reset-password/reset-password.module';
+import { GoogleOauthModule } from './google-oauth/google-oauth.module';
 import jwtConfig from '../configs/jwt.config';
 
 @Module({
@@ -24,6 +25,7 @@ import jwtConfig from '../configs/jwt.config';
     RefreshTokenModule,
     ForgetPasswordModule,
     ResetPasswordModule,
+    GoogleOauthModule,
   ],
   providers: [PrismaService, AuthResolver, AuthService],
   exports: [AuthService],
