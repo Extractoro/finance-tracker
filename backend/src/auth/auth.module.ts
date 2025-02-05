@@ -13,10 +13,14 @@ import { ForgetPasswordModule } from './forget-password/forget-password.module';
 import { ResetPasswordModule } from './reset-password/reset-password.module';
 import { GoogleOauthModule } from './google-oauth/google-oauth.module';
 import jwtConfig from '../configs/jwt.config';
+import { PassportModule } from '@nestjs/passport';
+import { JwtStrategy } from './jwt.strategy';
+import { UserService } from '../user/user.service';
 
 @Module({
   imports: [
     JwtModule.register(jwtConfig),
+    PassportModule.register({ defaultStrategy: 'jwt', session: false }),
     UuidModule,
     MailModule,
     SignupModule,
@@ -27,7 +31,13 @@ import jwtConfig from '../configs/jwt.config';
     ResetPasswordModule,
     GoogleOauthModule,
   ],
-  providers: [PrismaService, AuthResolver, AuthService],
+  providers: [
+    PrismaService,
+    AuthResolver,
+    AuthService,
+    JwtStrategy,
+    UserService,
+  ],
   exports: [AuthService],
 })
 export class AuthModule {}
