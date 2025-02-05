@@ -16,11 +16,12 @@ import jwtConfig from '../configs/jwt.config';
 import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './jwt.strategy';
 import { UserService } from '../user/user.service';
+import passportConfig from '../configs/passport.config';
 
 @Module({
   imports: [
     JwtModule.register(jwtConfig),
-    PassportModule.register({ defaultStrategy: 'jwt', session: false }),
+    PassportModule.register(passportConfig),
     UuidModule,
     MailModule,
     SignupModule,
