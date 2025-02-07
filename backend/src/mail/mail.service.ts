@@ -37,4 +37,18 @@ export class MailService {
       },
     });
   }
+
+  async sendEmailChange(user: Partial<UserModel>, token: string) {
+    const url: string = `${this.configService.get('SERVER_URL')}/auth/email-change?token=${token}`;
+
+    await this.mailerService.sendMail({
+      to: user.email,
+      subject: 'Change your Email',
+      template: './email-change.hbs',
+      context: {
+        name: user.name,
+        url,
+      },
+    });
+  }
 }
