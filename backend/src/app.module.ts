@@ -5,6 +5,7 @@ import { UserModule } from './user/user.module';
 import { ConfigModule } from '@nestjs/config';
 import { MailModule } from './mail/mail.module';
 import { AuthModule } from './auth/auth.module';
+import { CategoryModule } from './category/category.module';
 import googleOauthConfig from './configs/google-oauth.config';
 import graphqlConfig from './configs/graphql.config';
 
@@ -15,6 +16,7 @@ import graphqlConfig from './configs/graphql.config';
     UserModule,
     AuthModule,
     MailModule,
+    CategoryModule,
   ],
 })
 export class AppModule {}
