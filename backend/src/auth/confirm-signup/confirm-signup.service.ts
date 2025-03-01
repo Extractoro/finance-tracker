@@ -45,6 +45,8 @@ export class ConfirmSignupService {
       };
     } catch {
       throw new ApolloError('Invalid or expired token', 'INVALID_TOKEN');
+    } finally {
+      await this.prisma.$disconnect();
     }
   }
 }

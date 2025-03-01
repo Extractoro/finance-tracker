@@ -74,6 +74,8 @@ export class RefreshTokenService {
           ? 'TOKEN_EXPIRED'
           : 'REFRESH_TOKEN_FAILED');
       throw new ApolloError(error.message || 'Refresh token failed', errorCode);
+    } finally {
+      await this.prisma.$disconnect();
     }
   }
 }

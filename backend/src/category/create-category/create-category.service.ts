@@ -15,16 +15,18 @@ export class CreateCategoryService {
   ): Promise<CreateCategoryResponse> {
     try {
       return await this.prisma.$transaction(async (prisma) => {
-        const existedUser = await this.prisma.users.findUnique({
-          where: {
-            user_id: args.user_id,
-          },
-        });
+        // const existedUser = args.user_id
+        //   ? await prisma.users.findUnique({
+        //       where: {
+        //         user_id: args.user_id,
+        //       },
+        //     })
+        //   : null;
 
-        if (!existedUser)
-          throw new ApolloError('User do not exist', 'USER_DONT_EXIST');
+        // if (!existedUser)
+        //   throw new ApolloError('User do not exist', 'USER_DONT_EXIST');
 
-        const existedCategory = await this.prisma.category.findFirst({
+        const existedCategory = await prisma.category.findFirst({
           where: {
             name: args.name,
             type: args.type,
@@ -54,8 +56,10 @@ export class CreateCategoryService {
     } catch (error) {
       throw new ApolloError(
         error.message || 'Category creation failed',
-        error.extensions.code || 'CATEGORY_CREATION_FAILED',
+        error.extensions?.code || 'CATEGORY_CREATION_FAILED',
       );
+    } finally {
+      await this.prisma.$disconnect();
     }
   }
 }

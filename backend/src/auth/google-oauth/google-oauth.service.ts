@@ -28,7 +28,7 @@ export class GoogleOauthService {
     if (!email || !firstName) throw new ApolloError('Invalid user credentials');
 
     return this.prisma.$transaction(async (prisma) => {
-      let user: UserModel | null = await this.prisma.users.findUnique({
+      let user: UserModel | null = await prisma.users.findUnique({
         where: { email },
       });
 
@@ -38,7 +38,7 @@ export class GoogleOauthService {
           this.uuidService.generate({ version: 4 }),
         );
 
-        user = await this.prisma.users.create({
+        user = await prisma.users.create({
           data: {
             user_id: userId,
             name: firstName,

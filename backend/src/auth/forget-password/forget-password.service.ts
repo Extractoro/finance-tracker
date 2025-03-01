@@ -54,6 +54,8 @@ export class ForgetPasswordService {
         error.message || 'Forgot password failed',
         error.extensions.code || 'FORGOT_PASSWORD_FAILED',
       );
+    } finally {
+      await this.prisma.$disconnect();
     }
   }
 }

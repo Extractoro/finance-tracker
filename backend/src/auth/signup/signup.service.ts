@@ -65,6 +65,8 @@ export class SignupService {
         error.message || 'Signup failed',
         error.extensions.code || 'SIGNUP_FAILED',
       );
+    } finally {
+      await this.prisma.$disconnect();
     }
   }
 }
