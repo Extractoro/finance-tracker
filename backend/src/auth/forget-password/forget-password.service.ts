@@ -52,7 +52,7 @@ export class ForgetPasswordService {
     } catch (error) {
       throw new ApolloError(
         error.message || 'Forgot password failed',
-        error.code || 'FORGOT_PASSWORD_FAILED',
+        error.extensions.code || 'FORGOT_PASSWORD_FAILED',
       );
     }
   }

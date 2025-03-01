@@ -63,7 +63,7 @@ export class ResetPasswordService {
     } catch (error) {
       throw new ApolloError(
         error.message || 'Reset password failed',
-        error.code || 'RESET_PASSWORD_FAILED',
+        error.extensions.code || 'RESET_PASSWORD_FAILED',
       );
     }
   }
