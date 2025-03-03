@@ -1,6 +1,6 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { CategoryType } from './category-type.enum';
 import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { FinancialType } from '../enums/financial-type.enum';
 
 @InputType()
 export class CreateCategoryInput {
@@ -14,7 +14,7 @@ export class CreateCategoryInput {
   @IsString({ message: 'User id must be a string' })
   user_id?: string;
 
-  @Field(() => CategoryType)
-  @IsNotEmpty({ message: 'Category type must be filled' })
-  type: CategoryType;
+  @Field(() => FinancialType)
+  @IsNotEmpty({ message: 'Financial type must be filled' })
+  type: FinancialType;
 }

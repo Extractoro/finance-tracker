@@ -1,8 +1,8 @@
 import { registerEnumType } from '@nestjs/graphql';
 
-export enum CategoryType {
+export enum FinancialType {
   income = 'income',
   expense = 'expense',
 }
 
-registerEnumType(CategoryType, { name: 'CategoryTypeEnum' });
+registerEnumType(FinancialType, { name: 'FinancialTypeEnum' });

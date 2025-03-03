@@ -36,6 +36,7 @@
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
     "graphql": "^16.10.0",
+    "graphql-type-decimal": "^1.0.0",
     "handlebars": "^4.7.8",
     "nestjs-uuid": "^0.1.4",
     "nodemailer": "^6.10.0",

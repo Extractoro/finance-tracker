@@ -1,5 +1,5 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
-import { CategoryType } from './category-type.enum';
+import { FinancialType } from '../enums/financial-type.enum';
 
 @ObjectType()
 export class CategoryModel {
@@ -10,8 +10,14 @@ export class CategoryModel {
   name: string;
 
   @Field(() => String, { nullable: true })
-  user_id?: string | null;
+  user_id?: string | null; // Until release
 
-  @Field(() => CategoryType)
-  type: CategoryType;
+  @Field(() => FinancialType)
+  type: FinancialType;
+
+  @Field(() => Date, { nullable: true })
+  created_at: Date | null;
+
+  @Field(() => Date, { nullable: true })
+  updated_at: Date | null;
 }

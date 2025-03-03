@@ -22,8 +22,8 @@ model category {
 model goals {
   goal_id        Int       @id @default(autoincrement())
   name           String    @db.VarChar(50)
-  target_amount  Decimal?  @db.Decimal(10, 2)
-  current_amount Decimal?  @db.Decimal(10, 2)
+  target_amount  Float?    @db.Float
+  current_amount Float?    @db.Float
   deadline       DateTime? @db.Timestamp(0)
   user_id        String    @db.VarChar(120)
   created_at     DateTime? @default(now()) @db.Timestamp(0)
@@ -42,9 +42,9 @@ model tags {
 }
 
 model transactions {
-  transaction_id        Int                     @id
+  transaction_id        Int                     @id @default(autoincrement())
   type                  String?                 @db.VarChar(20)
-  amount                Decimal?                @db.Decimal(10, 2)
+  amount                Float?                  @db.Float
   date                  DateTime?               @db.Timestamp(0)
   description           String?                 @db.Text
   user_id               String                  @db.VarChar(120)
@@ -61,7 +61,7 @@ model transactions_category {
   category_id    Int
   transaction_id Int
   category       category     @relation(fields: [category_id], references: [category_id], onDelete: NoAction, map: "R_12")
-  transactions   transactions @relation(fields: [transaction_id], references: [transaction_id], onDelete: NoAction, map: "R_13")
+  transactions   transactions @relation(fields: [transaction_id], references: [transaction_id], onDelete: Cascade, onUpdate: NoAction, map: "R_13")
 
   @@id([category_id, transaction_id])
   @@index([transaction_id], map: "R_13")
@@ -70,7 +70,7 @@ model transactions_category {
 model transactions_tags {
   transaction_id Int
   tag_id         Int
-  transactions   transactions @relation(fields: [transaction_id], references: [transaction_id], onDelete: NoAction, map: "R_8")
+  transactions   transactions @relation(fields: [transaction_id], references: [transaction_id], onDelete: Cascade, onUpdate: NoAction, map: "R_8")
   tags           tags         @relation(fields: [tag_id], references: [tag_id], onDelete: NoAction, map: "R_9")
 
   @@id([transaction_id, tag_id])

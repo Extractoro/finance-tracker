@@ -4,8 +4,8 @@ import { Args } from '@nestjs/graphql';
 import { CreateCategoryInput } from '../../models/category/create-category.input';
 import { CreateCategoryResponse } from '../../models/category/create-category.response';
 import { ApolloError } from 'apollo-server-express';
-import { CategoryType } from '../../models/category/category-type.enum';
 import { CategoryModel } from '../../models/category/category.model';
+import { FinancialType } from '../../models/enums/financial-type.enum';
 
 @Injectable()
 export class CreateCategoryService {
@@ -30,7 +30,7 @@ export class CreateCategoryService {
         const existedCategory = (await prisma.category.findFirst({
           where: {
             name: args.name,
-            type: args.type as CategoryType,
+            type: args.type as FinancialType,
             OR: [{ user_id: args.user_id }, { user_id: null }],
           },
         })) as CategoryModel | null;
@@ -50,7 +50,7 @@ export class CreateCategoryService {
           message: 'Category created successfully',
           category: {
             ...createdCategory,
-            type: createdCategory.type as CategoryType,
+            type: createdCategory.type as FinancialType,
           },
         };
       });
