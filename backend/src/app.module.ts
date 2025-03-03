@@ -6,12 +6,12 @@ import { ConfigModule } from '@nestjs/config';
 import { MailModule } from './mail/mail.module';
 import { AuthModule } from './auth/auth.module';
 import { CategoryModule } from './category/category.module';
-import googleOauthConfig from './configs/google-oauth.config';
 import graphqlConfig from './configs/graphql.config';
+import configModuleConfig from './configs/config-module.config';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true, load: [googleOauthConfig] }),
+    ConfigModule.forRoot(configModuleConfig),
     GraphQLModule.forRoot<ApolloDriverConfig>(graphqlConfig),
     UserModule,
     AuthModule,
