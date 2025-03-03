@@ -4,6 +4,7 @@ import { Args } from '@nestjs/graphql';
 import { DeleteCategoryResponse } from '../../models/category/delete-category.response';
 import { DeleteCategoryInput } from '../../models/category/delete-category.input';
 import { ApolloError } from 'apollo-server-express';
+import { CategoryModel } from '../../models/category/category.model';
 
 @Injectable()
 export class DeleteCategoryService {
@@ -14,12 +15,12 @@ export class DeleteCategoryService {
   ): Promise<DeleteCategoryResponse> {
     try {
       return await this.prisma.$transaction(async (prisma) => {
-        const existingCategory = await prisma.category.findFirst({
+        const existingCategory = (await prisma.category.findFirst({
           where: {
             category_id: args.category_id,
             OR: [{ user_id: args.user_id }, { user_id: null }],
           },
-        });
+        })) as CategoryModel | null;
 
         if (!existingCategory) {
           throw new ApolloError(

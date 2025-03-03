@@ -5,6 +5,7 @@ import { CreateCategoryInput } from '../../models/category/create-category.input
 import { CreateCategoryResponse } from '../../models/category/create-category.response';
 import { ApolloError } from 'apollo-server-express';
 import { CategoryType } from '../../models/category/category-type.enum';
+import { CategoryModel } from '../../models/category/category.model';
 
 @Injectable()
 export class CreateCategoryService {
@@ -26,13 +27,13 @@ export class CreateCategoryService {
         // if (!existedUser)
         //   throw new ApolloError('User do not exist', 'USER_DONT_EXIST');
 
-        const existedCategory = await prisma.category.findFirst({
+        const existedCategory = (await prisma.category.findFirst({
           where: {
             name: args.name,
-            type: args.type,
+            type: args.type as CategoryType,
             OR: [{ user_id: args.user_id }, { user_id: null }],
           },
-        });
+        })) as CategoryModel | null;
 
         if (existedCategory)
           throw new ApolloError(

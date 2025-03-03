@@ -4,6 +4,7 @@ import { EditCategoryInput } from '../../models/category/edit-category.input';
 import { Args } from '@nestjs/graphql';
 import { EditCategoryResponse } from '../../models/category/edit-category.response';
 import { ApolloError } from 'apollo-server-express';
+import { CategoryModel } from '../../models/category/category.model';
 
 @Injectable()
 export class EditCategoryService {
@@ -14,12 +15,12 @@ export class EditCategoryService {
   ): Promise<EditCategoryResponse> {
     try {
       return await this.prisma.$transaction(async (prisma) => {
-        const existedCategory = await prisma.category.findUnique({
+        const existedCategory = (await prisma.category.findUnique({
           where: {
             category_id: args.category_id,
             user_id: args.user_id,
           },
-        });
+        })) as CategoryModel | null;
 
         if (!existedCategory)
           throw new ApolloError(
