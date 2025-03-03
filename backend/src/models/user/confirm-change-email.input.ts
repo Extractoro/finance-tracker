@@ -4,6 +4,6 @@ import { IsNotEmpty } from 'class-validator';
 @InputType()
 export class ConfirmChangeEmailInput {
   @Field()
-  @IsNotEmpty()
+  @IsNotEmpty({ message: 'Token must be filled' })
   token: string;
 }

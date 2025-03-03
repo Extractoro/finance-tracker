@@ -1,9 +1,10 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsNotEmpty } from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
 
 @InputType()
 export class RefreshTokenInput {
   @Field()
-  @IsNotEmpty()
+  @IsString()
+  @IsNotEmpty({ message: 'Refresh token must be filled' })
   refresh_token: string;
 }
