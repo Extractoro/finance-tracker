@@ -4,6 +4,7 @@ import { CreateTransactionInput } from '../../models/transactions/create-transac
 import { Args } from '@nestjs/graphql';
 import { CreateTransactionResponse } from '../../models/transactions/create-transaction.response';
 import { FinancialType } from '../../models/enums/financial-type.enum';
+import { ApolloError } from 'apollo-server-express';
 
 @Injectable()
 export class CreateTransactionService {
@@ -15,6 +16,12 @@ export class CreateTransactionService {
     const createdTransaction = await this.prisma.transactions.create({
       data: args,
     });
+
+    if (!createdTransaction)
+      throw new ApolloError(
+        'Error creating transaction',
+        'ERROR_CREATING_TRANSACTION',
+      );
 
     return {
       success: true,

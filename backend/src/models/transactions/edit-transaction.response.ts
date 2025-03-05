@@ -1,8 +1,8 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-import { CategoryModel } from './category.model';
+import { TransactionModel } from './transaction.model';
 
 @ObjectType()
-export class EditCategoryResponse {
+export class EditTransactionResponse {
   @Field(() => Boolean)
   success: boolean;
 
@@ -12,6 +12,6 @@ export class EditCategoryResponse {
   @Field(() => String, { nullable: true })
   errorCode?: string | null;
 
-  @Field(() => CategoryModel, { nullable: true })
-  category?: CategoryModel;
+  @Field(() => TransactionModel, { nullable: true })
+  transaction?: TransactionModel;
 }

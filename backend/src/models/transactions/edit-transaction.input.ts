@@ -1,4 +1,4 @@
-import { Field, Float, InputType } from '@nestjs/graphql';
+import { Field, Float, InputType, Int } from '@nestjs/graphql';
 import {
   IsDate,
   IsNotEmpty,
@@ -11,14 +11,19 @@ import {
 import { FinancialType } from '../enums/financial-type.enum';
 
 @InputType()
-export class CreateTransactionInput {
+export class EditTransactionInput {
+  @Field(() => Int)
+  @IsNotEmpty({ message: 'User id must be filled' })
+  @IsNumber()
+  transaction_id: number;
+
   @Field(() => String)
   @IsNotEmpty({ message: 'User id must be filled' })
   @IsString({ message: 'User id must be a string' })
   user_id: string;
 
-  @Field(() => FinancialType)
-  @IsNotEmpty({ message: 'Financial type must be filled' })
+  @Field(() => FinancialType, { nullable: true })
+  @IsOptional()
   type: FinancialType;
 
   @Field(() => String, { nullable: true })
@@ -26,15 +31,15 @@ export class CreateTransactionInput {
   @IsString({ message: 'Description must be a string' })
   description?: string;
 
-  @Field(() => Float)
+  @Field(() => Float, { nullable: true })
   @IsNumber()
-  @IsNotEmpty({ message: 'Amount must be filled' })
+  @IsOptional()
   @Min(1, { message: 'Amount must be greater than 0' })
   amount: number;
 
-  @Field(() => Date)
+  @Field(() => Date, { nullable: true })
   @IsDate()
-  @IsNotEmpty({ message: 'Date must be filled' })
+  @IsOptional()
   @MaxDate(new Date(), { message: 'Date cannot be in the future' })
   date: Date;
 }

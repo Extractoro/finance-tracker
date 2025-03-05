@@ -5,6 +5,8 @@ import { Args } from '@nestjs/graphql';
 import { EditCategoryResponse } from '../../models/category/edit-category.response';
 import { ApolloError } from 'apollo-server-express';
 import { CategoryModel } from '../../models/category/category.model';
+import hasChanges from '../../utils/hasChanges';
+import { FinancialType } from '../../models/enums/financial-type.enum';
 
 @Injectable()
 export class EditCategoryService {
@@ -28,7 +30,20 @@ export class EditCategoryService {
             'CATEGORY_NOT_FOUND_OR_PERMITTED',
           );
 
-        await prisma.category.update({
+        const isChanged = hasChanges(args, existedCategory);
+
+        if (!isChanged) {
+          return {
+            success: true,
+            message: 'Nothing to update',
+            errorCode: null,
+            category: {
+              ...existedCategory,
+            },
+          };
+        }
+
+        const editedCategory = await prisma.category.update({
           data: {
             name: args.name,
             type: args.type,
@@ -42,6 +57,10 @@ export class EditCategoryService {
           success: true,
           errorCode: null,
           message: 'Category successfully updated',
+          category: {
+            ...editedCategory,
+            type: editedCategory.type as FinancialType,
+          },
         };
       });
     } catch (error) {

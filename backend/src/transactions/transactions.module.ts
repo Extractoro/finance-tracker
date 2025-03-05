@@ -4,6 +4,7 @@ import { TransactionsResolver } from './transactions.resolver';
 import { CreateTransactionModule } from './create-transaction/create-transaction.module';
 import { CreateTransactionService } from './create-transaction/create-transaction.service';
 import { PrismaService } from '../prisma.service';
+import { EditTransactionModule } from './edit-transaction/edit-transaction.module';
 
 @Module({
   providers: [
@@ -12,6 +13,6 @@ import { PrismaService } from '../prisma.service';
     TransactionsService,
     CreateTransactionService,
   ],
-  imports: [CreateTransactionModule],
+  imports: [CreateTransactionModule, EditTransactionModule],
 })
 export class TransactionsModule {}
