@@ -5,6 +5,7 @@ import {
   IsNumber,
   IsOptional,
   IsString,
+  MaxDate,
 } from 'class-validator';
 import { FinancialType } from '../enums/financial-type.enum';
 
@@ -32,5 +33,6 @@ export class CreateTransactionInput {
   @Field(() => Date)
   @IsDate()
   @IsNotEmpty({ message: 'Date must be filled' })
+  @MaxDate(new Date(), { message: 'Date cannot be in the future' })
   date: Date;
 }

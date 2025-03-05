@@ -26,7 +26,8 @@
     "@nestjs/graphql": "^13.0.2",
     "concurrently": "^9.1.2",
     "eslint": "^9.19.0",
-    "graphql": "^16.10.0"
+    "graphql": "^16.10.0",
+    "graphql-type-decimal": "^1.0.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.6.1",

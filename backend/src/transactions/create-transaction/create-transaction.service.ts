@@ -15,7 +15,7 @@ export class CreateTransactionService {
     const createdTransaction = await this.prisma.transactions.create({
       data: args,
     });
-    // Date correct check
+
     return {
       success: true,
       message: 'Transaction created',
