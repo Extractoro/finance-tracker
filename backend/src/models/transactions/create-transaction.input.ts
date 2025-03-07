@@ -1,4 +1,4 @@
-import { Field, Float, InputType } from '@nestjs/graphql';
+import { Field, Float, InputType, Int } from '@nestjs/graphql';
 import {
   IsDate,
   IsNotEmpty,
@@ -20,6 +20,10 @@ export class CreateTransactionInput {
   @Field(() => FinancialType)
   @IsNotEmpty({ message: 'Financial type must be filled' })
   type: FinancialType;
+
+  @Field(() => Int)
+  @IsNotEmpty({ message: 'Category must be filled' })
+  category_id: number;
 
   @Field(() => String, { nullable: true })
   @IsOptional()
