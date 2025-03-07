@@ -13,7 +13,7 @@ import { FinancialType } from '../enums/financial-type.enum';
 @InputType()
 export class EditTransactionInput {
   @Field(() => Int)
-  @IsNotEmpty({ message: 'User id must be filled' })
+  @IsNotEmpty({ message: 'Transaction id must be filled' })
   @IsNumber()
   transaction_id: number;
 
