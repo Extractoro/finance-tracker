@@ -15,7 +15,7 @@ export class UserResolver {
     private readonly confirmChangeEmailService: ConfirmChangeEmailService,
   ) {}
 
-  @UseGuards(AuthGuard)
+  // @UseGuards(AuthGuard)
   @Query(() => [UserModel])
   async findAllUsers(): Promise<UserModel[]> {
     return this.userService.findAllUsers();
