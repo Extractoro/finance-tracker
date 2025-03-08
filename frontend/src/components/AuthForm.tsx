@@ -4,6 +4,7 @@ import React, { ChangeEvent, FormEvent } from 'react';
 import { OperationVariables, useMutation } from '@apollo/client';
 import { SIGNUP } from '@/qraphql/mutations/signup';
 import { SIGNIN } from '@/qraphql/mutations/signin';
+import Link from 'next/link';
 
 interface IAuthFormProps<T extends OperationVariables> {
   mode: 'signin' | 'signup';
@@ -64,6 +65,16 @@ const AuthForm = <T extends OperationVariables>({ mode, formData, handleChange }
             type="submit"
           >{mode === 'signup' ? 'Sign up' : 'Sign in'}</button>
         </form>
+        <p className='mt-5'>
+          {mode === 'signup'
+            ? (
+              <>If you already have an account, please <Link className='text-link hover:text-hover  transition-all duration-300' href={'/auth/signin'}>sign in</Link></>
+            )
+            : (
+              <>If you have not got an account, please <Link className='text-link hover:text-hover  transition-all duration-300' href={'/auth/signup'}>sign up</Link></>
+            )
+          }
+        </p>
       </div>
     </>
   );
