@@ -13,13 +13,15 @@ const Signup = () => {
   });
 
   return (
-    <div>
-      <AuthForm
-        formData={formData}
-        handleChange={(e) => handleChange<ISignUpFormData>(e, setFormData)}
-        mode={'signup'}
-      />
-    </div>
+    <>
+      <div>
+        <AuthForm
+          formData={formData}
+          handleChange={(e) => handleChange<ISignUpFormData>(e, setFormData)}
+          mode={'signup'}
+        />
+      </div>
+    </>
   );
 };
 export default Signup;

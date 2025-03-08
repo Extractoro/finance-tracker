@@ -1,17 +1,8 @@
-import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
-import React from "react";
-import { Provider } from "@/qraphql/provider";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+import './globals.css';
+import React from 'react';
+import { Provider } from '@/qraphql/provider';
+import { geistMono, geistSans } from '@/app/layoutConstants';
+import Head from 'next/head';
 
 export default function RootLayout({
   children,
@@ -20,8 +11,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+    <Head>
+      <title>Finance</title>
+      <meta name="description" content="This app can help you to manage your finance!" />
+    </Head>
+    <body
+      className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Provider>{children}</Provider>
       </body>

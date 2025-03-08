@@ -28,17 +28,34 @@ const AuthForm = <T extends OperationVariables>({ mode, formData, handleChange }
     }
   };
 
-  if (loading) return <p>Loading...</p>
+  if (loading) return <p>Loading...</p>;
 
   return (
     <>
       <form onSubmit={handleSubmit}>
         {mode === 'signup' && (
-          <input type="text" name="name" placeholder="Name" value={formData.name} onChange={handleChange} />
+          <input
+            type="text" name="name"
+            placeholder="Name"
+            value={formData.name}
+            onChange={handleChange}
+            required
+          />
         )}
-        <input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} />
-        <input type="password" name="password" placeholder="Password" value={formData.password}
-               onChange={handleChange} />
+        <input
+          type="email" name="email"
+          placeholder="Email"
+          value={formData.email}
+          onChange={handleChange}
+          required
+        />
+        <input
+          type="password" name="password"
+          placeholder="Password"
+          value={formData.password}
+          onChange={handleChange}
+          required
+        />
         <button type="submit">{mode === 'signup' ? 'Sign up' : 'Sign in'}</button>
         {error && <p>Error: {error.message}</p>}
       </form>
