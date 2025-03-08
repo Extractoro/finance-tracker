@@ -62,7 +62,7 @@ export class SignupService {
       };
     } catch (error) {
       throw new ApolloError(
-        error.message || 'Signup failed',
+        error.message || 'AuthForm failed',
         error.extensions.code || 'SIGNUP_FAILED',
       );
     } finally {
