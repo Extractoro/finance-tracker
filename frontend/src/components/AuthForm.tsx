@@ -12,7 +12,7 @@ interface IAuthFormProps<T extends OperationVariables> {
 }
 
 const AuthForm = <T extends OperationVariables>({ mode, formData, handleChange }: IAuthFormProps<T>) => {
-  const [auth, { loading, error }] = useMutation(
+  const [auth] = useMutation(
     mode === 'signup' ? SIGNUP : SIGNIN,
   );
 
@@ -28,37 +28,43 @@ const AuthForm = <T extends OperationVariables>({ mode, formData, handleChange }
     }
   };
 
-  if (loading) return <p>Loading...</p>;
-
   return (
     <>
-      <form onSubmit={handleSubmit}>
-        {mode === 'signup' && (
+      <div className="flex flex-col max-w-[700px] w-full m-auto">
+        <h2 className='font-bold text-3xl text-center mb-6'>{mode === 'signup' ? 'Sign up' : 'Sign in'}</h2>
+        <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
+          {mode === 'signup' && (
+            <input
+              className='p-3.5 bg-input text-text focus:outline-none focus:ring-2 focus:ring-border shadow-md rounded transition-all duration-300'
+              type="text" name="name"
+              placeholder="Name"
+              value={formData.name}
+              onChange={handleChange}
+              required
+            />
+          )}
           <input
-            type="text" name="name"
-            placeholder="Name"
-            value={formData.name}
+            className='p-3.5 bg-input text-text focus:outline-none focus:ring-2 focus:ring-border shadow-md rounded transition-all duration-300'
+            type="email" name="email"
+            placeholder="Email"
+            value={formData.email}
             onChange={handleChange}
             required
           />
-        )}
-        <input
-          type="email" name="email"
-          placeholder="Email"
-          value={formData.email}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="password" name="password"
-          placeholder="Password"
-          value={formData.password}
-          onChange={handleChange}
-          required
-        />
-        <button type="submit">{mode === 'signup' ? 'Sign up' : 'Sign in'}</button>
-        {error && <p>Error: {error.message}</p>}
-      </form>
+          <input
+            className='p-3.5 bg-input text-text focus:outline-none focus:ring-2 focus:ring-border shadow-md rounded transition-all duration-300'
+            type="password" name="password"
+            placeholder="Password"
+            value={formData.password}
+            onChange={handleChange}
+            required
+          />
+          <button
+            className='bg-button py-2.5 hover:bg-hover focus:outline-none shadow-md rounded transition-all duration-300'
+            type="submit"
+          >{mode === 'signup' ? 'Sign up' : 'Sign in'}</button>
+        </form>
+      </div>
     </>
   );
 };

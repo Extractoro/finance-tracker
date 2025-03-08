@@ -14,7 +14,7 @@ const Signup = () => {
 
   return (
     <>
-      <div>
+      <div className='min-h-screen flex w-full px-4'>
         <AuthForm
           formData={formData}
           handleChange={(e) => handleChange<ISignUpFormData>(e, setFormData)}
