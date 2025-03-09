@@ -1,11 +1,15 @@
-import { Controller, Get, Req, UseGuards } from '@nestjs/common';
+import { Controller, Get, Req, Res, UseGuards } from '@nestjs/common';
 import { GoogleOauthService } from './google-oauth.service';
 import { AuthGuard } from '@nestjs/passport';
-import { Request } from 'express';
+import { Request, Response } from 'express';
+import { ConfigService } from '@nestjs/config';
 
 @Controller('auth/google')
 export class GoogleOauthController {
-  constructor(private readonly googleOauthService: GoogleOauthService) {}
+  constructor(
+    private readonly googleOauthService: GoogleOauthService,
+    private readonly configService: ConfigService,
+  ) {}
 
   @Get()
   @UseGuards(AuthGuard('google'))
@@ -15,7 +19,23 @@ export class GoogleOauthController {
 
   @Get('callback')
   @UseGuards(AuthGuard('google'))
-  googleAuthRedirect(@Req() req: Request) {
-    return this.googleOauthService.googleLogin(req);
+  async googleAuthRedirect(@Req() req: Request, @Res() res: Response) {
+    const { accessToken, refreshToken } =
+      await this.googleOauthService.googleLogin(req);
+
+    res.cookie('accessToken', accessToken, {
+      httpOnly: true,
+      secure: true,
+      maxAge: 3 * 60 * 60 * 1000,
+    });
+    res.cookie('refreshToken', refreshToken, {
+      httpOnly: true,
+      secure: true,
+      maxAge: 14 * 24 * 60 * 60 * 1000,
+    });
+
+    res.redirect(
+      `${this.configService.get('CLIENT_URL')}/auth/google/callback`,
+    );
   }
 }

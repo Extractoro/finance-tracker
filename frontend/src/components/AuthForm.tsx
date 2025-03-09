@@ -5,6 +5,7 @@ import { OperationVariables, useMutation } from '@apollo/client';
 import { SIGNUP } from '@/qraphql/mutations/signup';
 import { SIGNIN } from '@/qraphql/mutations/signin';
 import Link from 'next/link';
+import GoogleLoginButton from '@/components/GoogleLoginButton';
 
 interface IAuthFormProps<T extends OperationVariables> {
   mode: 'signin' | 'signup';
@@ -33,6 +34,8 @@ const AuthForm = <T extends OperationVariables>({ mode, formData, handleChange }
     <>
       <div className="flex flex-col max-w-[700px] w-full m-auto">
         <h2 className='font-bold text-3xl text-center mb-6'>{mode === 'signup' ? 'Sign up' : 'Sign in'}</h2>
+        <GoogleLoginButton/>
+        <p className='my-4 text-center text-xl'>OR</p>
         <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
           {mode === 'signup' && (
             <input
@@ -68,10 +71,10 @@ const AuthForm = <T extends OperationVariables>({ mode, formData, handleChange }
         <p className='mt-5'>
           {mode === 'signup'
             ? (
-              <>If you already have an account, please <Link className='text-link hover:text-hover  transition-all duration-300' href={'/auth/signin'}>sign in</Link></>
+              <>If you already have an account, please <Link className='text-link hover:text-hover transition-all duration-300' href={'/auth/signin'}>sign in</Link></>
             )
             : (
-              <>If you have not got an account, please <Link className='text-link hover:text-hover  transition-all duration-300' href={'/auth/signup'}>sign up</Link></>
+              <>If you have not got an account, please <Link className='text-link hover:text-hover transition-all duration-300' href={'/auth/signup'}>sign up</Link></>
             )
           }
         </p>

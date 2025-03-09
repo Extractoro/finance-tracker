@@ -3,9 +3,10 @@ import React from 'react';
 import { Provider } from '@/qraphql/provider';
 import { geistMono, geistSans } from '@/app/layoutConstants';
 
+
 export default function RootLayout({
-  children,
-}: Readonly<{
+                                     children,
+                                   }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
@@ -13,9 +14,9 @@ export default function RootLayout({
 
     <body
       className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+    >
         <Provider>{children}</Provider>
-      </body>
+    </body>
     </html>
   );
 }
