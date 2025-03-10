@@ -1,6 +1,5 @@
 'use server';
 
-import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 
 export const GET  = async (req: NextRequest) => {
@@ -10,9 +9,8 @@ export const GET  = async (req: NextRequest) => {
   if (!code) NextResponse.json({ error: 'No code provided' }, { status: 400 });
 
   try {
-    const cookiesStore = await cookies();
-    const accessToken = cookiesStore.get('accessToken');
-    const refreshToken = cookiesStore.get('refreshToken');
+    const accessToken = req.cookies.get('accessToken');
+    const refreshToken = req.cookies.get('refreshToken');
 
     if (!accessToken || !refreshToken) {
       return NextResponse.json({ error: 'Could not get tokens from cookies' }, { status: 400 });
