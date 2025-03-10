@@ -12,11 +12,14 @@ export const GET  = async (req: NextRequest) => {
     const accessToken = req.cookies.get('accessToken');
     const refreshToken = req.cookies.get('refreshToken');
 
+    console.log(accessToken);
+    console.log(refreshToken);
+
     if (!accessToken || !refreshToken) {
       return NextResponse.json({ error: 'Could not get tokens from cookies' }, { status: 400 });
     }
 
-    return NextResponse.redirect(`${process.env.NEXT_PUBLIC_CLIENT_URI}`);
+    return NextResponse.redirect(`${process.env.NEXT_PUBLIC_CLIENT_URI}/dashboard`);
 
   } catch (error) {
     NextResponse.json({ error: 'Authentication failed', message: error }, { status: 400 });
