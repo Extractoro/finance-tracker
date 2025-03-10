@@ -12,7 +12,7 @@ const Signin = () => {
   });
 
   return (
-    <div className='min-h-screen flex w-full px-4'>
+    <div className='min-h-screen flex w-full'>
       <AuthForm
         formData={formData}
         handleChange={(e) => handleChange<ISignInFormData>(e, setFormData)}

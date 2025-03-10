@@ -1,7 +1,7 @@
 import './globals.css';
 import React from 'react';
 import { Provider } from '@/qraphql/provider';
-import { geistMono, geistSans } from '@/app/layoutConstants';
+import { comfortaaSans } from '@/app/layoutConstants';
 
 
 export default function RootLayout({
@@ -13,7 +13,7 @@ export default function RootLayout({
     <html lang="en">
 
     <body
-      className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      className={`${comfortaaSans.variable} antialiased`}
     >
         <Provider>{children}</Provider>
     </body>
