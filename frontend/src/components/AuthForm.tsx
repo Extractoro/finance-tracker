@@ -2,10 +2,10 @@
 
 import React, { ChangeEvent, FormEvent } from 'react';
 import { OperationVariables, useMutation } from '@apollo/client';
-import { SIGNUP } from '@/qraphql/mutations/signup';
-import { SIGNIN } from '@/qraphql/mutations/signin';
 import Link from 'next/link';
 import GoogleLoginButton from '@/components/GoogleLoginButton';
+import { SIGNIN } from '@/graphql/mutations/signin';
+import { SIGNUP } from '@/graphql/mutations/signup';
 
 interface IAuthFormProps<T extends OperationVariables> {
   mode: 'signin' | 'signup';
