@@ -47,12 +47,13 @@ export class ForgetPasswordService {
 
       return {
         success: true,
+        errorCode: null,
         message: 'Password reset link sent successfully',
       };
     } catch (error) {
       throw new ApolloError(
         error.message || 'Forgot password failed',
-        error.extensions.code || 'FORGOT_PASSWORD_FAILED',
+        error.extensions?.code || 'FORGOT_PASSWORD_FAILED',
       );
     } finally {
       await this.prisma.$disconnect();

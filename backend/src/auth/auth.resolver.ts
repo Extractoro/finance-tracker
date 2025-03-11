@@ -18,6 +18,9 @@ import { ForgetPasswordService } from './forget-password/forget-password.service
 import { ResetPasswordResponse } from '../models/auth/reset-password.response';
 import { ResetPasswordInput } from '../models/auth/reset-password.input';
 import { ResetPasswordService } from './reset-password/reset-password.service';
+import { ResendConfirmService } from './resend-confirm/resend-confirm.service';
+import { ResendConfirmInput } from '../models/auth/resend-confirm.input';
+import { ResendConfirmResponse } from '../models/auth/resend-confirm.response';
 
 @Resolver()
 export class AuthResolver {
@@ -29,6 +32,7 @@ export class AuthResolver {
     private readonly refreshTokenService: RefreshTokenService,
     private readonly forgetPasswordService: ForgetPasswordService,
     private readonly resetPasswordService: ResetPasswordService,
+    private readonly resendConfirmService: ResendConfirmService,
   ) {}
 
   @Mutation(() => SignupResponse)
@@ -67,5 +71,12 @@ export class AuthResolver {
     @Args('data') args: ResetPasswordInput,
   ): Promise<ResetPasswordResponse> {
     return this.resetPasswordService.resetPassword(args);
+  }
+
+  @Mutation(() => ResendConfirmResponse)
+  async resendConfirm(
+    @Args('data') args: ResendConfirmInput,
+  ): Promise<ResendConfirmResponse> {
+    return this.resendConfirmService.resendConfirm(args);
   }
 }

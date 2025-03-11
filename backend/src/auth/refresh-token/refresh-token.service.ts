@@ -69,7 +69,7 @@ export class RefreshTokenService {
       };
     } catch (error) {
       const errorCode =
-        error.extensions.code ||
+        error.extensions?.code ||
         (error.message.includes('expired')
           ? 'TOKEN_EXPIRED'
           : 'REFRESH_TOKEN_FAILED');
