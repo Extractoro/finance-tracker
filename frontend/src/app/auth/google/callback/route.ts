@@ -19,7 +19,7 @@ export const GET  = async (req: NextRequest) => {
       return NextResponse.json({ error: 'Could not get tokens from cookies' }, { status: 400 });
     }
 
-    return NextResponse.redirect(`${process.env.NEXT_PUBLIC_CLIENT_URI}/dashboard`);
+    return NextResponse.redirect(`${process.env.NEXT_PUBLIC_DEV_CLIENT_URI}/dashboard`);
 
   } catch (error) {
     NextResponse.json({ error: 'Authentication failed', message: error }, { status: 400 });

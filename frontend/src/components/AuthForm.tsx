@@ -6,7 +6,6 @@ import Link from 'next/link';
 import GoogleLoginButton from '@/components/GoogleLoginButton';
 import { SIGNIN } from '@/graphql/mutations/signin';
 import { SIGNUP } from '@/graphql/mutations/signup';
-import Particles from '@/components/Particles';
 
 interface IAuthFormProps<T extends OperationVariables> {
   mode: 'signin' | 'signup';
@@ -33,21 +32,7 @@ const AuthForm = <T extends OperationVariables>({ mode, formData, handleChange }
 
   return (
     <>
-      <div className="relative flex justify-center w-full min-h-screen">
-        <div className="absolute inset-0 z-0">
-          <Particles
-            particleColors={['#ffffff', '#ffffff']}
-            particleCount={1000}
-            particleSpread={10}
-            speed={0.12}
-            particleBaseSize={100}
-            moveParticlesOnHover={false}
-            alphaParticles={true}
-            disableRotation={false}
-          />
-        </div>
-
-        <div
+       <div
           className="flex z-10 flex-col max-w-[700px] w-full m-auto justify-between bg-background mx-3 p-10 py-14 border-border border-[1px] rounded-2xl shadow-2xl">
           <h2 className="font-bold text-3xl text-center mb-6">{mode === 'signup' ? 'Sign up' : 'Sign in'}</h2>
           <GoogleLoginButton />
@@ -101,7 +86,6 @@ const AuthForm = <T extends OperationVariables>({ mode, formData, handleChange }
           </p>
         </div>
 
-      </div>
 
     </>
   );
