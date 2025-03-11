@@ -59,7 +59,6 @@ const ConfirmSignup = () => {
   );
 };
 
-
 const Page = () => {
   return <Suspense fallback={<p className="mt-5 text-center text-xl">Loading...</p>}>
     <ConfirmSignup />

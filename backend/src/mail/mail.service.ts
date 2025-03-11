@@ -11,7 +11,7 @@ export class MailService {
   ) {}
 
   async sendConfirmation(user: Partial<UserModel>, token: string) {
-    const url: string = `${this.configService.get('SERVER_URL')}/auth/confirm?token=${token}`;
+    const url: string = `${this.configService.get('CLIENT_DEV_URL')}/auth/confirm-signup?token=${token}`;
 
     await this.mailerService.sendMail({
       to: user.email,
@@ -25,7 +25,7 @@ export class MailService {
   }
 
   async sendResetPassword(user: Partial<UserModel>, token: string) {
-    const url: string = `${this.configService.get('SERVER_URL')}/auth/reset?token=${token}`;
+    const url: string = `${this.configService.get('CLIENT_DEV_URL')}/auth/reset-password?token=${token}`;
 
     await this.mailerService.sendMail({
       to: user.email,
@@ -39,7 +39,7 @@ export class MailService {
   }
 
   async sendEmailChange(user: Partial<UserModel>, token: string) {
-    const url: string = `${this.configService.get('SERVER_URL')}/auth/email-change?token=${token}`;
+    const url: string = `${this.configService.get('CLIENT_DEV_URL')}/auth/email-change?token=${token}`;
 
     await this.mailerService.sendMail({
       to: user.email,
