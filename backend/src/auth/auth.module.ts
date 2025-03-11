@@ -16,6 +16,7 @@ import jwtConfig from '../configs/jwt.config';
 import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './jwt.strategy';
 import { UserService } from '../user/user.service';
+import { ResendConfirmModule } from './resend-confirm/resend-confirm.module';
 import passportConfig from '../configs/passport.config';
 
 @Module({
@@ -31,6 +32,7 @@ import passportConfig from '../configs/passport.config';
     ForgetPasswordModule,
     ResetPasswordModule,
     GoogleOauthModule,
+    ResendConfirmModule,
   ],
   providers: [
     PrismaService,

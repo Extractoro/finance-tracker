@@ -63,7 +63,7 @@ export class SignupService {
     } catch (error) {
       throw new ApolloError(
         error.message || 'AuthForm failed',
-        error.extensions.code || 'SIGNUP_FAILED',
+        error.extensions?.code || 'SIGNUP_FAILED',
       );
     } finally {
       await this.prisma.$disconnect();

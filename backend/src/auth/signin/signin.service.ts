@@ -59,7 +59,7 @@ export class SigninService {
     } catch (error) {
       throw new ApolloError(
         error.message || 'Signin failed',
-        error.extensions.code || 'SIGNIN_FAILED',
+        error.extensions?.code || 'SIGNIN_FAILED',
       );
     } finally {
       await this.prisma.$disconnect();
