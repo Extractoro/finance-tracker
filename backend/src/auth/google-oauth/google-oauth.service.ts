@@ -44,6 +44,7 @@ export class GoogleOauthService {
             name: firstName,
             email,
             password: hashedPassword,
+            verify: 1,
           },
         });
       }

@@ -9,6 +9,14 @@ export interface ISignInFormData {
   password: string;
 }
 
+export interface IForgetPasswordFormData {
+  email: string;
+}
+
+export interface IResetPasswordFormData {
+  password: string;
+}
+
 export interface AuthTokens {
   accessToken: string;
   refreshToken: string;

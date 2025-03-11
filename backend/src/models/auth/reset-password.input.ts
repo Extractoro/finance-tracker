@@ -26,5 +26,5 @@ export class ResetPasswordInput {
   @MaxLength(64, {
     message: 'Password must be between 8 and 64 characters',
   })
-  new_password: string;
+  password: string;
 }

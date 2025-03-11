@@ -8,11 +8,12 @@ import Particles from '@/components/Particles';
 import { particleProps } from '@/interfaces/particles';
 
 const Signup = () => {
-  const [formData, setFormData] = useState<ISignUpFormData>({
+  const initialValues: ISignUpFormData = {
     name: '',
     email: '',
     password: '',
-  });
+  }
+  const [formData, setFormData] = useState<ISignUpFormData>(initialValues);
 
   return (
     <>
@@ -20,6 +21,8 @@ const Signup = () => {
         <Particles {...particleProps} />
         <AuthForm
           formData={formData}
+          initialValues={initialValues}
+          setFormData={setFormData}
           handleChange={(e) => handleChange<ISignUpFormData>(e, setFormData)}
           mode={'signup'}
         />

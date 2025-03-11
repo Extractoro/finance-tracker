@@ -16,7 +16,7 @@ export class ResetPasswordService {
 
   async resetPassword({
     token,
-    new_password,
+    password: new_password,
   }: ResetPasswordInput): Promise<ResetPasswordResponse> {
     try {
       const decoded = (await this.jwtService.verifyAsync(token)) as {
@@ -35,7 +35,10 @@ export class ResetPasswordService {
       if (!user) throw new ApolloError('User not found', 'USER_NOT_FOUND');
 
       if (!user.resetPasswordToken)
-        throw new ApolloError('Incorrect reset token', 'INCORRECT_RESET_TOKEN');
+        throw new ApolloError(
+          'Invalid or expired reset token',
+          'INVALID_RESET_TOKEN',
+        );
 
       const isSamePassword = await argon2.verify(user.password, new_password);
       if (isSamePassword) {

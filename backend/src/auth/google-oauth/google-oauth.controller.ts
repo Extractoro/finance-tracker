@@ -39,7 +39,7 @@ export class GoogleOauthController {
     });
 
     res.redirect(
-      `${this.configService.get('CLIENT_URL')}/auth/google/callback`,
+      `${this.configService.get('CLIENT_DEV_URL')}/auth/google/callback`,
     );
   }
 }
