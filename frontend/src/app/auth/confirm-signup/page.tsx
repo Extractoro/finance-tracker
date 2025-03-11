@@ -1,13 +1,13 @@
 'use client';
 
-import React, { useLayoutEffect, useState } from 'react';
+import React, { Suspense, useLayoutEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { FaArrowLeft } from 'react-icons/fa';
 import { useMutation } from '@apollo/client';
 import CONFIRM_SIGNUP from '@/graphql/mutations/confirm-signup';
 
-const Page = () => {
+const ConfirmSignup = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const token = searchParams.get('token');
@@ -38,7 +38,7 @@ const Page = () => {
           setErrorMessage('An unknown error occurred. Please try again.');
         }
         setStatus(false);
-      })
+      });
     } catch {
       setErrorMessage('An unexpected error occurred.');
       setStatus(false);
@@ -57,5 +57,12 @@ const Page = () => {
       </>}
     </div>
   );
+};
+
+
+const Page = () => {
+  return <Suspense fallback={<p className="mt-5 text-center text-xl">Loading...</p>}>
+    <ConfirmSignup />
+  </Suspense>;
 };
 export default Page;
