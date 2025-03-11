@@ -1,6 +1,6 @@
 'use client';
 
-import React, { Suspense, useLayoutEffect, useState } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { FaArrowLeft } from 'react-icons/fa';
@@ -15,7 +15,7 @@ const ConfirmSignup = () => {
   const [status, setStatus] = useState<boolean | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (!token) {
       setErrorMessage('Error occurred (token do not provided). Try again or write to support.');
       return;
