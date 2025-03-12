@@ -9,6 +9,9 @@ import { SIGNUP } from '@/graphql/mutations/signup';
 import reset from '@/utils/reset';
 import { RESEND_CONFIRM } from '@/graphql/mutations/resend-confirm';
 import { useRouter } from 'next/navigation';
+import { errorToast, successToast, warningToast } from '@/utils/toast';
+import { capitalizeFirstLetter } from '@/utils/capitalizeFirstLetter';
+import { GraphqlError } from '@/interfaces/graphqlError';
 
 interface IAuthFormProps<T extends OperationVariables> {
   mode: 'signin' | 'signup';
@@ -39,55 +42,72 @@ const AuthForm = <T extends OperationVariables>({
         variables: formData,
       });
 
-      if (mode === 'signin') {
-        if (data.signIn?.success) {
-          document.cookie = `accessToken=${data.signIn.access_token}; path=/; secure=${process.env.NODE_ENV === 'production'}; sameSite=lax; max-age=${3 * 60 * 60}`;
-          document.cookie = `refreshToken=${data.signIn.refresh_token}; path=/; secure=${process.env.NODE_ENV === 'production'}; sameSite=lax; max-age=${14 * 24 * 60 * 60}`;
-
-          console.log('Signed in successfully');
-
-          router.replace('/dashboard');
-        } else {
-          console.log('Authentication failed:', data.signIn?.message);
-        }
-      } else if (mode === 'signup') {
-        if (data.signUp?.success) {
-          console.log('Signed up successfully');
-
-          router.replace('/auth/signin');
-        } else {
-          console.log('Sign-up failed:', data.signUp.message);
-        }
+      if (mode === "signin" && !data?.signIn?.success) {
+        throw new Error(data?.signIn?.message || "Authentication failed");
       }
 
-      // reset(setFormData, initialValues);
+      if (mode === "signup" && !data?.signUp?.success) {
+        throw new Error(data?.signUp?.message || "Sign-up failed");
+      }
+
+      if (mode === "signin") {
+        document.cookie = `accessToken=${data.signIn.access_token}; path=/; secure=${process.env.NODE_ENV === "production"}; sameSite=lax; max-age=${3 * 60 * 60}`;
+        document.cookie = `refreshToken=${data.signIn.refresh_token}; path=/; secure=${process.env.NODE_ENV === "production"}; sameSite=lax; max-age=${14 * 24 * 60 * 60}`;
+
+        successToast("Signed in successfully");
+        router.replace("/dashboard");
+      } else if (mode === "signup") {
+        successToast("Signed up successfully");
+        router.replace("/auth/signin");
+      }
+
+      reset(setFormData, initialValues);
     } catch (error) {
-      console.log(error);
+      const graphqlError = error as GraphqlError;
+
+      if (graphqlError.cause.extensions?.originalError?.errors?.length) {
+        errorToast(capitalizeFirstLetter(graphqlError.cause.extensions.originalError.errors[0].message));
+        return;
+      }
+
+      if (mode === "signin") {
+        errorToast(error instanceof Error ? error.message : "Authentication failed");
+      } else if (mode === "signup") {
+        errorToast(error instanceof Error ? error.message : "Sign-up failed");
+      } else {
+        errorToast("Something went wrong");
+      }
     }
   };
 
   const handleResendConfirmation = async () => {
     if (!formData.email || formData.email.length === 0) {
-      console.log('Write an email in input to resent confirmation');
+      warningToast('Write an email in input to resent confirmation')
       return;
     }
 
     const formEmailData = { email: formData.email };
-
     try {
       await resendConfirm({ variables: formEmailData });
-      console.log('Success');
+      successToast('Success');
 
       reset(setFormData, initialValues);
     } catch (error) {
-      console.log(error);
+      const graphqlError = error as GraphqlError;
+
+      if (graphqlError.cause.extensions?.originalError?.errors?.length) {
+        errorToast(capitalizeFirstLetter(graphqlError.cause.extensions.originalError.errors[0].message));
+        return;
+      }
+
+      errorToast(error instanceof Error ? error.message : "Something went wrong");
     }
   };
 
   return (
     <>
       <div
-        className="flex z-10 flex-col max-w-[700px] w-full m-auto justify-between bg-background mx-3 p-10 py-14 border-border border-[1px] rounded-2xl shadow-2xl">
+        className="flex z-10 flex-col max-w-[700px] w-full m-auto justify-between bg-background mx-3 p-6 md:p-10 py-14 border-border border-[1px] rounded-2xl shadow-2xl">
         <h2 className="font-bold text-3xl text-center mb-6">{mode === 'signup' ? 'Sign up' : 'Sign in'}</h2>
         <GoogleLoginButton />
         <p className="my-4 text-center text-xl">OR</p>
