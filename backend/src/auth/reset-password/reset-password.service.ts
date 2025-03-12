@@ -29,10 +29,14 @@ export class ResetPasswordService {
       }
 
       const user: UserModel | null = await this.prisma.users.findUnique({
-        where: { user_id: decoded.sub },
+        where: { user_id: decoded.sub, verify: 1 },
       });
 
-      if (!user) throw new ApolloError('User not found', 'USER_NOT_FOUND');
+      if (!user)
+        throw new ApolloError(
+          'User not found or not verified',
+          'USER_NOT_FOUND_OR_NOT_VERIFIED',
+        );
 
       if (!user.resetPasswordToken)
         throw new ApolloError(

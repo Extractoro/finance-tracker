@@ -32,7 +32,10 @@ export class SigninService {
       }
 
       if (!(await argon2.verify(existingUser.password, password))) {
-        throw new ApolloError('Incorrect password', 'INCORRECT_PASSWORD');
+        throw new ApolloError(
+          'Incorrect email or password',
+          'INCORRECT_EMAIL_OR_PASSWORD',
+        );
       }
 
       const payload = { sub: existingUser.user_id };

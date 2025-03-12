@@ -20,10 +20,14 @@ export class ForgetPasswordService {
   }: ForgetPasswordInput): Promise<ForgetPasswordResponse> {
     try {
       const user: UserModel | null = await this.prisma.users.findUnique({
-        where: { email },
+        where: { email, verify: 1 },
       });
 
-      if (!user) throw new ApolloError('User not found', 'USER_NOT_FOUND');
+      if (!user)
+        throw new ApolloError(
+          'User not found or not verified',
+          'USER_NOT_FOUND_OR_NOT_VERIFIED',
+        );
 
       const payload = { sub: user.user_id, name: user.name };
       const accessToken: string = await this.jwtService.signAsync(payload);
