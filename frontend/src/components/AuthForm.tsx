@@ -8,6 +8,7 @@ import { SIGNIN } from '@/graphql/mutations/signin';
 import { SIGNUP } from '@/graphql/mutations/signup';
 import reset from '@/utils/reset';
 import { RESEND_CONFIRM } from '@/graphql/mutations/resend-confirm';
+import { useRouter } from 'next/navigation';
 
 interface IAuthFormProps<T extends OperationVariables> {
   mode: 'signin' | 'signup';
@@ -24,6 +25,7 @@ const AuthForm = <T extends OperationVariables>({
                                                   setFormData,
                                                   handleChange,
                                                 }: IAuthFormProps<T>) => {
+  const router = useRouter();
   const [auth] = useMutation(
     mode === 'signup' ? SIGNUP : SIGNIN,
   );
@@ -33,11 +35,32 @@ const AuthForm = <T extends OperationVariables>({
     e.preventDefault();
 
     try {
-      await auth({
+      const { data } = await auth({
         variables: formData,
       });
 
-      reset(setFormData, initialValues);
+      if (mode === 'signin') {
+        if (data.signIn?.success) {
+          document.cookie = `accessToken=${data.signIn.access_token}; path=/; secure=${process.env.NODE_ENV === 'production'}; sameSite=lax; max-age=${3 * 60 * 60}`;
+          document.cookie = `refreshToken=${data.signIn.refresh_token}; path=/; secure=${process.env.NODE_ENV === 'production'}; sameSite=lax; max-age=${14 * 24 * 60 * 60}`;
+
+          console.log('Signed in successfully');
+
+          router.replace('/dashboard');
+        } else {
+          console.log('Authentication failed:', data.signIn?.message);
+        }
+      } else if (mode === 'signup') {
+        if (data.signUp?.success) {
+          console.log('Signed up successfully');
+
+          router.replace('/auth/signin');
+        } else {
+          console.log('Sign-up failed:', data.signUp.message);
+        }
+      }
+
+      // reset(setFormData, initialValues);
     } catch (error) {
       console.log(error);
     }
@@ -54,7 +77,7 @@ const AuthForm = <T extends OperationVariables>({
     try {
       await resendConfirm({ variables: formEmailData });
       console.log('Success');
-      
+
       reset(setFormData, initialValues);
     } catch (error) {
       console.log(error);
