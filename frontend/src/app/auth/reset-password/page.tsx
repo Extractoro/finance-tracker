@@ -11,6 +11,9 @@ import { RESET_PASSWORD } from '@/graphql/mutations/reset-password';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { FaArrowLeft } from 'react-icons/fa';
 import Link from 'next/link';
+import { errorToast } from '@/utils/toast';
+import { capitalizeFirstLetter } from '@/utils/capitalizeFirstLetter';
+import { GraphqlError } from '@/interfaces/graphqlError';
 
 const ResetPassword = () => {
   const searchParams = useSearchParams();
@@ -42,7 +45,14 @@ const ResetPassword = () => {
       reset(setFormData, initialValues);
       router.replace('/auth/signin');
     } catch (error) {
-      console.log(error);
+      const graphqlError = error as GraphqlError;
+
+      if (graphqlError.cause.extensions?.originalError?.errors?.length) {
+        errorToast(capitalizeFirstLetter(graphqlError.cause.extensions.originalError.errors[0].message));
+        return;
+      }
+
+      errorToast(error instanceof Error ? error.message : "Something went wrong");
     }
   };
 
