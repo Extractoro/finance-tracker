@@ -7,7 +7,7 @@ import handleChange from '@/utils/handleChange';
 import Particles from '@/components/Particles';
 import { particleProps } from '@/interfaces/particles';
 
-const Signin = () => {
+const Page = () => {
   const initialValues: ISignInFormData = {
     email: '',
     password: '',
@@ -27,4 +27,4 @@ const Signin = () => {
     </div>
   );
 };
-export default Signin;
+export default Page;

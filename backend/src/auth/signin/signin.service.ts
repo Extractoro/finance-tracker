@@ -55,10 +55,11 @@ export class SigninService {
         access_token: accessToken,
         refresh_token: refreshToken,
         message: 'Sign in successfully',
+        success: true,
       };
     } catch (error) {
       throw new ApolloError(
-        error.message || 'Signin failed',
+        error.message || 'Route failed',
         error.extensions?.code || 'SIGNIN_FAILED',
       );
     } finally {
