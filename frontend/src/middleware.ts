@@ -14,15 +14,21 @@ export const middleware = (req: NextRequest) => {
 
   const isProtectedRoute = PROTECTED_ROUTES.some((route) => pathname.startsWith(route));
 
-  if (pathname === '/') NextResponse.redirect(new URL(isAuthenticated ? '/dashboard' : '/auth/signin', req.url));
+  if (pathname === '/') {
+    return NextResponse.redirect(new URL(isAuthenticated ? '/dashboard' : '/auth/signin', req.url));
+  }
 
-  if (isAuthenticated && isAuthRoute) NextResponse.redirect(new URL('/dashboard', req.url));
+  if (isAuthenticated && isAuthRoute) {
+    return NextResponse.redirect(new URL('/dashboard', req.url));
+  }
 
-  if (!isAuthenticated && isProtectedRoute) NextResponse.redirect(new URL('/auth/signin', req.url));
+  if (!isAuthenticated && isProtectedRoute) {
+    return NextResponse.redirect(new URL('/auth/signin', req.url));
+  }
 
   return NextResponse.next();
 };
 
 export const config = {
-  matcher: ['/', '/dashboard/:path*', '/auth/:path*'],
+  matcher: ['/', '/dashboard/:path*', '/auth/:path*', '/transactions/:path*', '/profile/:path*', '/settings/:path*'],
 };

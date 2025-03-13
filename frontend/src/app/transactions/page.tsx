@@ -6,9 +6,13 @@ const Page = () => {
   return (
     <>
       <Header />
-      <Container>
-        <div>asdasd</div>
-      </Container>
+      <main>
+        <section>
+          <Container>
+            <div>asdasd</div>
+          </Container>
+        </section>
+      </main>
     </>
   );
 };

@@ -11,12 +11,14 @@ export default {
       colors: {
         text: "var(--text)",
         background: "var(--background)",
+        'header-background': "var(--header-background)",
         input: "var(--input)",
         "input-border": "var(--input-border)",
         button: "var(--button)",
         hover: "var(--hover)",
         link: "var(--link)",
         accent: "var(--accent)",
+        'dark-accent': "var(--dark-accent)",
         border: "var(--border)",
       },
       animation: {
