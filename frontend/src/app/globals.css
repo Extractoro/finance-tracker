@@ -2,30 +2,48 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --text: #4a4a4a;
-  --background: #f7f7f7;
-  --input: #ffffff;
-  --input-border: #d1d1d1;
-  --button: #d0b1ff;
-  --hover: #e6ccff;
-  --link: #a3a0ff;
-  --accent: #e0b3ff;
-  --border: #e0e0e0;
-}
+/*:root {*/
+/*  --text: #4a4a4a;*/
+/*  --background: #f7f7f7;*/
+/*  --header-background: #e0e0e0;*/
+/*  --input: #ffffff;*/
+/*  --input-border: #d1d1d1;*/
+/*  --button: #d0b1ff;*/
+/*  --hover: #e6ccff;*/
+/*  --link: #a3a0ff;*/
+/*  --accent: #e0b3ff;*/
+/*  --border: #e0e0e0;*/
+/*}*/
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #f9f9f9;
-    --background: #2c2c2c;
-    --input: #3a3a3a;
-    --input-border: #555555;
-    --button: #a39bff;
-    --hover: #8f82ff;
-    --link: #b5b2ff;
-    --accent: #c4a8ff;
-    --border: #444444;
-  }
+/*@media (prefers-color-scheme: dark) {*/
+/*  :root {*/
+/*    --text: #f9f9f9;*/
+/*    --background: #2c2c2c;*/
+/*    --header-background: #1a1a1a;*/
+/*    --input: #3a3a3a;*/
+/*    --input-border: #555555;*/
+/*    --button: #a39bff;*/
+/*    --hover: #8f82ff;*/
+/*    --link: #b5b2ff;*/
+/*    --accent: #c4a8ff;*/
+/*    --border: #444444;*/
+/*  }*/
+/*}*/
+
+
+
+:root {
+  --text: #e3f2fd;
+  --background: #1c2b2d;
+  --header-background: #274046;
+  --input: #2d3e40;
+  --input-border: #4b6b6b;
+  --button: #5aaf70;
+  --hover: #74c69d;
+  --link: #64b5f6;
+  --accent: #76c7b7; /* Soft teal accent for a calmer look */
+  --dark-accent: #4fa3b1; /* Darker teal for hover or darker accents */
+  --border: #3a5155;
 }
 
 * {
