@@ -10,7 +10,7 @@ import { DeleteTransactionResponse } from '../models/transactions/delete-transac
 import { DeleteTransactionInput } from '../models/transactions/delete-transaction.input';
 import { DeleteTransactionService } from './delete-transaction/delete-transaction.service';
 import { GetAllTransactionsService } from './get-all-transactions/get-all-transactions.service';
-import { GetAllResponse } from '../models/transactions/get-all.response';
+import { GetAllTransactionsResponse } from '../models/transactions/get-all-transactions.response';
 
 @Resolver()
 export class TransactionsResolver {
@@ -22,8 +22,8 @@ export class TransactionsResolver {
     private readonly deleteTransactionService: DeleteTransactionService,
   ) {}
 
-  @Query(() => GetAllResponse)
-  async getAll(): Promise<GetAllResponse> {
+  @Query(() => GetAllTransactionsResponse)
+  async getAll(): Promise<GetAllTransactionsResponse> {
     return await this.getAllTransactionsService.getAllTransactions();
   }
 

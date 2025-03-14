@@ -2,7 +2,7 @@ import { Field, ObjectType } from '@nestjs/graphql';
 import { TransactionsModel } from './transactions.model';
 
 @ObjectType()
-export class GetAllResponse {
+export class GetAllTransactionsResponse {
   @Field(() => Boolean)
   success: boolean;
 

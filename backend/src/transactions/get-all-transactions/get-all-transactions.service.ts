@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../prisma.service';
-import { GetAllResponse } from '../../models/transactions/get-all.response';
+import { GetAllTransactionsResponse } from '../../models/transactions/get-all-transactions.response';
 import { FinancialType } from '../../models/enums/financial-type.enum';
 
 @Injectable()
 export class GetAllTransactionsService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async getAllTransactions(): Promise<GetAllResponse> {
+  async getAllTransactions(): Promise<GetAllTransactionsResponse> {
     const transactions = await this.prisma.transactions.findMany({
       where: {
         type: {
