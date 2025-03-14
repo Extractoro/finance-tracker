@@ -8,9 +8,6 @@ const handleChange = <T>(
   const { name, value } = e.target;
 
   if (name === "date" && setError) {
-    console.log(value);
-
-
     const minDate = new Date("2020-01-01T00:00");
     const maxDate = new Date();
     const selectedDate = new Date(value);
