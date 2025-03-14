@@ -34,13 +34,13 @@ const Header = () => {
     if (window.innerWidth >= 640) {
       setOpen(false);
     }
-    setOpen(false)
+    setOpen(false);
   };
 
   useEffect(() => {
-    window.addEventListener("resize", handleResize);
+    window.addEventListener('resize', handleResize);
     return () => {
-      window.removeEventListener("resize", handleResize);
+      window.removeEventListener('resize', handleResize);
     };
   }, []);
 
