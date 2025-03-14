@@ -6,6 +6,7 @@ import { CreateTransactionService } from './create-transaction/create-transactio
 import { PrismaService } from '../prisma.service';
 import { EditTransactionModule } from './edit-transaction/edit-transaction.module';
 import { DeleteTransactionModule } from './delete-transaction/delete-transaction.module';
+import { GetAllTransactionsModule } from './get-all-transactions/get-all-transactions.module';
 
 @Module({
   providers: [
@@ -14,6 +15,11 @@ import { DeleteTransactionModule } from './delete-transaction/delete-transaction
     TransactionsService,
     CreateTransactionService,
   ],
-  imports: [CreateTransactionModule, EditTransactionModule, DeleteTransactionModule],
+  imports: [
+    CreateTransactionModule,
+    EditTransactionModule,
+    DeleteTransactionModule,
+    GetAllTransactionsModule,
+  ],
 })
 export class TransactionsModule {}
