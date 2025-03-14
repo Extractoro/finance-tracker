@@ -41,8 +41,8 @@
   --button: #5aaf70;
   --hover: #74c69d;
   --link: #64b5f6;
-  --accent: #76c7b7; /* Soft teal accent for a calmer look */
-  --dark-accent: #4fa3b1; /* Darker teal for hover or darker accents */
+  --accent: #76c7b7;
+  --dark-accent: #4fa3b1;
   --border: #3a5155;
 }
 
