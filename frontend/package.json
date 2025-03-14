@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.13.2",
+    "framer-motion": "^12.5.0",
     "graphql": "^16.10.0",
     "handy-svg": "^1.0.8",
     "js-cookie": "^3.0.5",
