@@ -1,3 +1,5 @@
+"use client";
+
 import React from 'react';
 import Container from '@/components/Container';
 import Header from '@/components/Header';
@@ -6,7 +8,7 @@ const Page = () => {
   return (
     <>
       <Header />
-      <main>
+      <main className='min-h-screen'>
         <section>
           <Container>
             <div>asdasd</div>
