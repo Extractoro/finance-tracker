@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { Suspense, useState } from 'react';
 import { ISignUpFormData } from '@/interfaces/auth';
 import AuthForm from '@/components/AuthForm';
 import handleChange from '@/utils/handleChange';
@@ -30,4 +30,11 @@ const Signup = () => {
     </>
   );
 };
-export default Signup;
+
+const Page = () => {
+  return <Suspense fallback={<p className="mt-5 text-center text-xl">Loading...</p>}>
+    <Signup />
+  </Suspense>;
+};
+
+export default Page;

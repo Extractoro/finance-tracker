@@ -1,13 +1,13 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { Suspense, useState } from 'react';
 import { ISignInFormData } from '@/interfaces/auth';
 import AuthForm from '@/components/AuthForm';
 import handleChange from '@/utils/handleChange';
 import Particles from '@/components/Particles';
 import { particleProps } from '@/interfaces/particles';
 
-const Page = () => {
+const Signin = () => {
   const initialValues: ISignInFormData = {
     email: '',
     password: '',
@@ -27,4 +27,11 @@ const Page = () => {
     </div>
   );
 };
+
+const Page = () => {
+  return <Suspense fallback={<p className="mt-5 text-center text-xl">Loading...</p>}>
+    <Signin />
+  </Suspense>;
+};
+
 export default Page;

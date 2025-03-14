@@ -1,6 +1,6 @@
 'use client';
 
-import React, { FormEvent, useState } from 'react';
+import React, { FormEvent, Suspense, useState } from 'react';
 import Particles from '@/components/Particles';
 import { particleProps } from '@/interfaces/particles';
 import handleChange from '@/utils/handleChange';
@@ -14,7 +14,7 @@ import { errorToast } from '@/utils/toast';
 import { capitalizeFirstLetter } from '@/utils/capitalizeFirstLetter';
 import { GraphqlError } from '@/interfaces/graphqlError';
 
-const Page = () => {
+const ForgetPassword = () => {
   const initialValues: IForgetPasswordFormData = { email: '' };
   const [formData, setFormData] = useState<IForgetPasswordFormData>(initialValues);
   const [forgetPassword] = useMutation(FORGET_PASSWORD);
@@ -70,4 +70,11 @@ const Page = () => {
     </>
   );
 };
+
+const Page = () => {
+  return <Suspense fallback={<p className="mt-5 text-center text-xl">Loading...</p>}>
+    <ForgetPassword />
+  </Suspense>;
+};
+
 export default Page;

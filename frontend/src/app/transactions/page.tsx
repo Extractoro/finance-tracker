@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import Container from '@/components/Container';
 import Header from '@/components/Header';
 import { FaPlus } from 'react-icons/fa6';
@@ -9,7 +9,7 @@ import handleChange from '@/utils/handleChange';
 import { capitalizeFirstLetter } from '@/utils/capitalizeFirstLetter';
 import { FinancialTypeEnum } from '@/interfaces/enum/FinancialTypeEnum';
 
-const Page = () => {
+const Transactions = () => {
   const initialState: ITransactionFilterState = {
     name: '',
     type: 'all',
@@ -76,5 +76,12 @@ const Page = () => {
     </>
   );
 };
+
+const Page = () => {
+  return <Suspense fallback={<p className="mt-5 text-center text-xl">Loading...</p>}>
+    <Transactions />
+  </Suspense>;
+};
+
 export default Page;
 

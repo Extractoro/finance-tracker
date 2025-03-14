@@ -1,10 +1,10 @@
 "use client";
 
-import React from 'react';
+import React, { Suspense } from 'react';
 import Header from '@/components/Header';
 import Container from '@/components/Container';
 
-const Page = () => {
+const Dashboard = () => {
   return (
     <>
       <Header />
@@ -18,5 +18,12 @@ const Page = () => {
     </>
   );
 };
+
+const Page = () => {
+  return <Suspense fallback={<p className="mt-5 text-center text-xl">Loading...</p>}>
+    <Dashboard />
+  </Suspense>;
+};
+
 export default Page;
 
