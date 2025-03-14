@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation'; // Import usePathname
 import Container from '@/components/Container';
@@ -30,14 +30,28 @@ const Header = () => {
       pathname === path ? 'text-accent' : 'text-accent group-hover:text-hover'
     }`;
 
+  const handleResize = () => {
+    if (window.innerWidth >= 640) {
+      setOpen(false);
+    }
+    setOpen(false)
+  };
+
+  useEffect(() => {
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   return (
     <Container>
-      <header className="w-full max-w-screen-md py-3 px-6 my-7 bg-header-background rounded-[2rem] shadow-2xl">
-        <nav className="flex items-center justify-between">
+      <header className="w-full max-w-screen-lg py-3 px-6 my-7 bg-header-background rounded-[2rem] shadow-xl">
+        <nav className="flex items-center justify-between gap-20">
           <Link href="/dashboard">
             <LogoIcon size={60} className="fill-accent hover:fill-hover transition duration-300" />
           </Link>
-          
+
           <button
             onClick={() => setOpen(!open)}
             className="sm:hidden p-2 rounded-md text-accent hover:text-hover transition duration-300"
@@ -67,7 +81,7 @@ const Header = () => {
             </AnimatePresence>
           </button>
 
-          <ul className="hidden sm:flex items-center gap-8">
+          <ul className="hidden sm:flex sm:flex-grow justify-evenly items-center gap-8">
             <li>
               <Link href="/dashboard" className={getLinkClasses('/dashboard')}>
                 <RiDashboardLine className={getIconClasses('/dashboard')} size={24} />
