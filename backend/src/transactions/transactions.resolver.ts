@@ -1,4 +1,4 @@
-import { Args, Mutation, Resolver } from '@nestjs/graphql';
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { TransactionsService } from './transactions.service';
 import { CreateTransactionService } from './create-transaction/create-transaction.service';
 import { CreateTransactionResponse } from '../models/transactions/create-transaction.response';
@@ -9,15 +9,23 @@ import { EditTransactionResponse } from '../models/transactions/edit-transaction
 import { DeleteTransactionResponse } from '../models/transactions/delete-transaction.response';
 import { DeleteTransactionInput } from '../models/transactions/delete-transaction.input';
 import { DeleteTransactionService } from './delete-transaction/delete-transaction.service';
+import { GetAllTransactionsService } from './get-all-transactions/get-all-transactions.service';
+import { GetAllResponse } from '../models/transactions/get-all.response';
 
 @Resolver()
 export class TransactionsResolver {
   constructor(
     private readonly transactionsService: TransactionsService,
+    private readonly getAllTransactionsService: GetAllTransactionsService,
     private readonly createTransactionService: CreateTransactionService,
     private readonly editTransactionService: EditTransactionService,
     private readonly deleteTransactionService: DeleteTransactionService,
   ) {}
+
+  @Query(() => GetAllResponse)
+  async getAll(): Promise<GetAllResponse> {
+    return await this.getAllTransactionsService.getAllTransactions();
+  }
 
   @Mutation(() => CreateTransactionResponse)
   async createTransaction(
