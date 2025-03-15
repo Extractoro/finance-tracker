@@ -4,11 +4,13 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation'; // Import usePathname
 import Container from '@/components/Container';
-import { RiCloseLine, RiDashboardLine, RiMenu3Line } from 'react-icons/ri';
+import { RiCloseLine, RiMenu3Line } from 'react-icons/ri';
 import LogoIcon from '@/assets/logoIcon';
 import { GrTransaction } from 'react-icons/gr';
 import { CgProfile } from 'react-icons/cg';
 import { AnimatePresence, motion } from 'framer-motion';
+import { MdOutlineCategory } from 'react-icons/md';
+import { AiOutlineDashboard } from 'react-icons/ai';
 
 const menuVariants = {
   hidden: { opacity: 0, maxHeight: 0, overflow: 'hidden' },
@@ -54,7 +56,7 @@ const Header = () => {
 
           <button
             onClick={() => setOpen(!open)}
-            className="sm:hidden p-2 rounded-md text-accent hover:text-hover transition duration-300"
+            className="xd:hidden p-2 rounded-md text-accent hover:text-hover transition duration-300"
           >
             <AnimatePresence mode="wait">
               {open ? (
@@ -81,10 +83,10 @@ const Header = () => {
             </AnimatePresence>
           </button>
 
-          <ul className="hidden sm:flex sm:flex-grow justify-evenly items-center gap-8">
+          <ul className="hidden xd:flex xd:flex-grow justify-evenly items-center gap-8">
             <li>
               <Link href="/dashboard" className={getLinkClasses('/dashboard')}>
-                <RiDashboardLine className={getIconClasses('/dashboard')} size={24} />
+                <AiOutlineDashboard className={getIconClasses('/dashboard')} size={24} />
                 Dashboard
               </Link>
             </li>
@@ -92,6 +94,12 @@ const Header = () => {
               <Link href="/transactions" className={getLinkClasses('/transactions')}>
                 <GrTransaction className={getIconClasses('/transactions')} size={24} />
                 Transactions
+              </Link>
+            </li>
+            <li>
+              <Link href="/categories" className={getLinkClasses('/categories')} onClick={() => setOpen(false)}>
+                <MdOutlineCategory  className={getIconClasses('/categories')} size={24} />
+                Categories
               </Link>
             </li>
             <li>
@@ -114,7 +122,7 @@ const Header = () => {
             >
               <li>
                 <Link href="/dashboard" className={getLinkClasses('/dashboard')} onClick={() => setOpen(false)}>
-                  <RiDashboardLine className={getIconClasses('/dashboard')} size={24} />
+                  <AiOutlineDashboard className={getIconClasses('/dashboard')} size={24} />
                   Dashboard
                 </Link>
               </li>
@@ -122,6 +130,12 @@ const Header = () => {
                 <Link href="/transactions" className={getLinkClasses('/transactions')} onClick={() => setOpen(false)}>
                   <GrTransaction className={getIconClasses('/transactions')} size={24} />
                   Transactions
+                </Link>
+              </li>
+              <li>
+                <Link href="/categories" className={getLinkClasses('/transactions')} onClick={() => setOpen(false)}>
+                  <MdOutlineCategory className={getIconClasses('/transactions')} size={24} />
+                  Categories
                 </Link>
               </li>
               <li>
