@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client';
 
-export const FIND_ALL_USERS = gql`
+export const GET_ALL_USERS = gql`
     query FindAllUsers {
       findAllUsers {
         created_at
