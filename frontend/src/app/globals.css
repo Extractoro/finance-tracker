@@ -30,20 +30,18 @@
 /*  }*/
 /*}*/
 
-
-
 :root {
-  --text: #e3f2fd;
-  --background: #1c2b2d;
-  --header-background: #274046;
-  --input: #2d3e40;
-  --input-border: #4b6b6b;
-  --button: #5aaf70;
-  --hover: #74c69d;
-  --link: #64b5f6;
-  --accent: #76c7b7;
-  --dark-accent: #4fa3b1;
-  --border: #3a5155;
+  --text: #E3F2FD;
+  --background: #172427;
+  --header-background: #22373D;
+  --input: #2B4043;
+  --input-border: #4B6B6B;
+  --button: #5FAF7A;
+  --hover: #76D199;
+  --link: #6FB8F6;
+  --accent: #78C8B7;
+  --dark-accent: #4F9DA7;
+  --border: #3A555A;
 }
 
 * {

@@ -3,6 +3,8 @@ import Header from '@/components/Header';
 import Container from '@/components/Container';
 
 const Categories = () => {
+  // const {data, error, loading} = useQuery(GET_ALL_CATEGORIES)
+
   return (
     <>
       <Header />
