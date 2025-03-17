@@ -1,17 +1,16 @@
-import React, { useState } from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import { FaPlus } from 'react-icons/fa6';
 import handleChange from '@/utils/handleChange';
 import { FinancialTypeEnum } from '@/interfaces/enum/FinancialTypeEnum';
 import { capitalizeFirstLetter } from '@/utils/capitalizeFirstLetter';
 import { ICategoriesFilterState } from '@/interfaces/categories';
 
-const CategoriesFilter = () => {
-  const initialState: ICategoriesFilterState = {
-    name: '',
-    type: 'all',
-  };
-  const [formData, setFormData] = useState<ICategoriesFilterState>(initialState);
+interface ICategoriesFilterProps<T> {
+  formData: T,
+  setFormData: Dispatch<SetStateAction<T>>,
+}
 
+const CategoriesFilter = <T extends ICategoriesFilterState>({formData, setFormData}: ICategoriesFilterProps<T>) => {
   return (
     <div className="flex flex-col gap-3 md:flex-row justify-between">
       <button
@@ -24,13 +23,13 @@ const CategoriesFilter = () => {
           name="name"
           placeholder="Category name"
           value={formData.name}
-          onChange={(e) => handleChange<ICategoriesFilterState>(e, setFormData)} />
+          onChange={(e) => handleChange<T>(e, setFormData)} />
         <select
           className="p-3.5 bg-input text-text focus:outline-none focus:ring-2 focus:ring-border shadow-md rounded transition-all duration-300"
           name="type"
-          onChange={(e) => handleChange<ICategoriesFilterState>(e, setFormData)}
+          onChange={(e) => handleChange<T>(e, setFormData)}
         >
-          <option
+          <option value='all'
             defaultChecked>All
           </option>
           <option value={FinancialTypeEnum.income}>{capitalizeFirstLetter(FinancialTypeEnum.income)}</option>
