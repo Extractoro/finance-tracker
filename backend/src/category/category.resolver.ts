@@ -22,7 +22,7 @@ export class CategoryResolver {
     private readonly editCategoryService: EditCategoryService,
   ) {}
 
-  @Query(() => [GetAllCategoriesResponse])
+  @Query(() => GetAllCategoriesResponse)
   async getAllCategories(): Promise<GetAllCategoriesResponse> {
     return await this.getAllCategoriesService.getAllCategories();
   }
