@@ -23,7 +23,7 @@ const TransactionsFilter = () => {
     <div className="flex flex-col gap-3 md:flex-row justify-between">
       <button
         className="flex items-center gap-3 justify-center bg-button py-2.5 px-6 hover:bg-hover focus:outline-none shadow-md rounded transition-all duration-300">Create
-        new <FaPlus size={20} /></button>
+        new transaction<FaPlus size={20} /></button>
       <div className="grid grid-cols-2 md:grid-cols-3 gap-3 transition duration-300">
         <input
           className="p-3.5 bg-input text-text focus:outline-none focus:ring-2 focus:ring-border shadow-md rounded transition-all duration-300"
