@@ -1,5 +1,4 @@
 import React, { Dispatch, SetStateAction } from 'react';
-import { FaPlus } from 'react-icons/fa6';
 import handleChange from '@/utils/handleChange';
 import { FinancialTypeEnum } from '@/interfaces/enum/FinancialTypeEnum';
 import { capitalizeFirstLetter } from '@/utils/capitalizeFirstLetter';
@@ -12,10 +11,6 @@ interface ICategoriesFilterProps<T> {
 
 const CategoriesFilter = <T extends ICategoriesFilterState>({formData, setFormData}: ICategoriesFilterProps<T>) => {
   return (
-    <div className="flex flex-col gap-3 md:flex-row justify-between">
-      <button
-        className="flex items-center gap-3 justify-center bg-button py-2.5 px-6 hover:bg-hover focus:outline-none shadow-md rounded transition-all duration-300">Create
-        new category<FaPlus size={20} /></button>
       <div className="grid grid-cols-2 gap-3 transition duration-300">
         <input
           className="p-3.5 bg-input text-text focus:outline-none focus:ring-2 focus:ring-border shadow-md rounded transition-all duration-300"
@@ -37,7 +32,6 @@ const CategoriesFilter = <T extends ICategoriesFilterState>({formData, setFormDa
             value={FinancialTypeEnum.expense}>{capitalizeFirstLetter(FinancialTypeEnum.expense)}</option>
         </select>
       </div>
-    </div>
   );
 };
 export default CategoriesFilter;

@@ -10,6 +10,12 @@ const httpLink = createHttpLink({
 const client = new ApolloClient({
   link: httpLink,
   cache: new InMemoryCache(),
+  typeDefs: `
+    enum FinancialTypeEnum {
+      EXPENSE
+      INCOME
+    }
+  `
 });
 
 export default client;
