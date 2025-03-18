@@ -13,7 +13,7 @@ import { FinancialTypeEnum } from '@/interfaces/enum/FinancialTypeEnum';
 import CategoryModal from '@/components/CategoryModal';
 import { CREATE_CATEGORY } from '@/graphql/mutations/create-category';
 import { GraphqlError } from '@/interfaces/graphqlError';
-import { errorToast } from '@/utils/toast';
+import { errorToast, successToast } from '@/utils/toast';
 import { capitalizeFirstLetter } from '@/utils/capitalizeFirstLetter';
 
 const Categories = () => {
@@ -43,6 +43,8 @@ const Categories = () => {
   const handleCategorySubmit = async (name: string, type: FinancialTypeEnum) => {
     try {
       await createCategory({variables: {name, type}})
+
+      successToast("Successfully created category!");
     } catch (error) {
       const graphqlError = error as GraphqlError;
 
