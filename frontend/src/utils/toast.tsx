@@ -6,15 +6,16 @@ import { IoWarning } from 'react-icons/io5';
 export const errorToast = (message: string) => {
   toast.custom((t) => (
     <div
+      style={{ paddingTop: '1rem', paddingBottom: '1rem', border: `2px solid var(--border)` }}
       className={`${
         t.visible ? 'animate-enter' : 'animate-leave'
-      } flex gap-2 items-center ring-1 ring-black ring-opacity-5 bg-background border-border border-2 rounded-lg py-4 px-6`}
+      } flex gap-2 items-center ring-opacity-5 bg-background rounded-lg px-6`}
     >
-      <IoMdCloseCircle fill='#ff4b4b' size={24} />
-      <p>{message}</p>
+        <IoMdCloseCircle fill="#ff4b4b" size={24} />
+        <p>{message}</p>
     </div>
   ), {
-    duration: 1500,
+    duration: 18000,
     position: 'top-right',
   });
 };
@@ -22,11 +23,12 @@ export const errorToast = (message: string) => {
 export const successToast = (message: string) => {
   toast.custom((t) => (
     <div
+      style={{ paddingTop: '1rem', paddingBottom: '1rem', border: `2px solid var(--border)` }}
       className={`${
         t.visible ? 'animate-enter' : 'animate-leave'
-      } flex gap-2 items-center ring-1 ring-black ring-opacity-5 bg-background border-border border-2 rounded-lg py-4 px-6`}
+      } flex gap-2 items-center ring-opacity-5 bg-background rounded-lg px-6`}
     >
-      <FaCheck color='#61d345' size={24} />
+      <FaCheck color="#61d345" size={24} />
       <p>{message}</p>
     </div>
   ), {
@@ -38,11 +40,12 @@ export const successToast = (message: string) => {
 export const warningToast = (message: string) => {
   toast.custom((t) => (
     <div
+      style={{ paddingTop: '1rem', paddingBottom: '1rem', border: `2px solid var(--border)` }}
       className={`${
         t.visible ? 'animate-enter' : 'animate-leave'
-      } flex gap-2 items-center ring-1 ring-black ring-opacity-5 bg-background border-border border-2 rounded-lg py-4 px-6`}
+      } flex gap-2 items-center ring-opacity-5 bg-background rounded-lg px-6`}
     >
-      <IoWarning color='#ffb02e' size={24} />
+      <IoWarning color="#ffb02e" size={24} />
       <p>{message}</p>
     </div>
   ), {
