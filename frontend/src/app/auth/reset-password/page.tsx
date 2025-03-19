@@ -47,8 +47,8 @@ const ResetPassword = () => {
     } catch (error) {
       const graphqlError = error as GraphqlError;
 
-      if (graphqlError.cause.extensions?.originalError?.errors?.length) {
-        errorToast(capitalizeFirstLetter(graphqlError.cause.extensions.originalError.errors[0].message));
+      if (graphqlError.cause.message) {
+        errorToast(capitalizeFirstLetter(graphqlError.cause.message));
         return;
       }
 

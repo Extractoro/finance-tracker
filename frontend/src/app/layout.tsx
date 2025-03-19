@@ -16,8 +16,8 @@ export default function RootLayout({
     <body
       className={`${comfortaaSans.variable} ${montserratAlternatesSans.variable} antialiased`}
     >
-        <Provider>{children}</Provider>
-        <Toaster />
+    <Provider>{children}</Provider>
+    <Toaster />
     </body>
     </html>
   );
