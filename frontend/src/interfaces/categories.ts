@@ -13,3 +13,8 @@ export interface ICategory {
   created_at: Date;
   updated_at: Date;
 }
+
+export interface ICategoriesCreateState {
+  name: string,
+  type: FinancialTypeEnum
+}
