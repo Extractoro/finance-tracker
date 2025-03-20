@@ -7,14 +7,18 @@ import { GET_ALL_CATEGORIES } from '@/graphql/queries/getAllCategories';
 import { useQuery } from '@apollo/client';
 import CategoriesFilter from '@/components/CategoriesFilter';
 import { ICategoriesFilterState, ICategory } from '@/interfaces/categories';
-import CategoryItem from '@/components/CategoryItem';
+import UserCategoryItem from '@/components/UserCategoryItem';
 import { FaPlus } from 'react-icons/fa6';
 import CategoryModal from '@/components/CategoryModal';
+import DefaultCategoryItem from '@/components/DefaultCategoryItem';
+import { cn } from '@/utils/cn';
+import { filterCategories } from '@/utils/filterCategories';
 
 const Categories = () => {
   const initialState: ICategoriesFilterState = {
     name: '',
-    type: 'all',
+    type: '',
+    categoryType: '',
   };
   const [formData, setFormData] = useState<ICategoriesFilterState>(initialState);
   const [isOpen, setIsOpen] = useState(false);
@@ -23,20 +27,21 @@ const Categories = () => {
   const [selectedCategory, setSelectedCategory] = useState<ICategory | null>(null);
 
   const { data, error, loading } = useQuery(GET_ALL_CATEGORIES);
-  const categories = useMemo(() => data?.getAllCategories?.categories || [], [data]);
 
-  const filteredCategories = useMemo(() => {
-    return categories.filter((category: ICategory) => {
-      const matchesName = category.name.toLowerCase().includes(formData.name.toLowerCase());
-      const matchesType = formData.type === 'all' || category.type === formData.type;
-      return matchesName && matchesType;
-    });
-  }, [categories, formData]);
+  const userCategories = useMemo(() => data?.getAllCategories?.userCategories || [], [data]);
+  const defaultCategories = useMemo(() => data?.getAllCategories?.defaultCategories || [], [data]);
 
-  useEffect(()=> {
-    const category = categories.find((category: ICategory) => category.category_id === selected)
-    setSelectedCategory(category)
-  }, [selected, categories])
+  const filteredUserCategories = useMemo(() => filterCategories(userCategories, formData, 'user'), [userCategories, formData]);
+  const filteredDefaultCategories = useMemo(() => filterCategories(defaultCategories, formData, 'default'), [defaultCategories, formData]);
+
+  useEffect(() => {
+    if (selected) {
+      const category = [...filteredDefaultCategories, ...filteredUserCategories].find(
+        (category: ICategory) => category.category_id === selected,
+      );
+      setSelectedCategory(category || null);
+    }
+  }, [selected, filteredDefaultCategories, filteredUserCategories]);
 
   return (
     <>
@@ -49,10 +54,11 @@ const Categories = () => {
                 <button
                   onClick={() => {
                     setIsOpen(true);
-                    setMode('create')
+                    setMode('create');
                   }}
-                  className="flex items-center gap-3 justify-center bg-button py-2.5 px-6 hover:bg-hover focus:outline-none shadow-md rounded transition-all duration-300">Create
-                  new category<FaPlus size={20} /></button>
+                  className="flex items-center gap-3 justify-center bg-button py-2.5 px-6 hover:bg-hover focus:outline-none shadow-md rounded transition-all duration-300">
+                  Create new category<FaPlus size={20} />
+                </button>
                 <CategoriesFilter formData={formData} setFormData={setFormData} />
               </div>
 
@@ -61,15 +67,41 @@ const Categories = () => {
                 {error && <p className="text-xl text-center">Error</p>}
                 <ul
                   className="w-full grid grid-cols-1 xm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-                  {(filteredCategories?.length > 0) ?
-                    filteredCategories?.map((category: ICategory) => (
-                      <CategoryItem key={category.category_id} category={category} setIsOpen={setIsOpen} setSelected={setSelected} setMode={setMode} />
-                    )) : <p className="w-80">{(!loading && !error) && 'You have not got any category'}</p>}
+                  {filteredDefaultCategories.length > 0 && (
+                    <>
+                      <p className="col-span-full text-lg font-semibold">Default categories</p>
+                      {filteredDefaultCategories.map((category: ICategory) => (
+                        <DefaultCategoryItem key={category.category_id} category={category} />
+                      ))}
+                      {userCategories.length === 0 && filteredUserCategories.length === 0 && !loading && !error && (
+                        <hr className="col-span-full border-border border-t-2 my-4" />
+                      )}
+                    </>
+                  )}
+
+                  {filteredUserCategories.length > 0 && (
+                    <>
+                      <p className={cn("col-span-full text-lg font-semibold", formData.categoryType !== 'user' && 'mt-6')}  >Your categories</p>
+                      {filteredUserCategories.map((category: ICategory) => (
+                        <UserCategoryItem
+                          key={category.category_id}
+                          category={category}
+                          setIsOpen={setIsOpen}
+                          setSelected={setSelected}
+                          setMode={setMode}
+                        />
+                      ))}
+                    </>
+                  )}
+                  {filteredUserCategories.length === 0 && formData.categoryType === 'user' && !loading && !error && (
+                    <p className="w-80 col-span-full">You have not got own categories</p>
+                  )}
                 </ul>
               </div>
             </div>
 
-            <CategoryModal isOpen={isOpen} setIsOpen={setIsOpen} mode={mode} selectedCategory={selectedCategory} selected={selected} />
+            <CategoryModal isOpen={isOpen} setIsOpen={setIsOpen} mode={mode} selectedCategory={selectedCategory}
+                           selected={selected} />
           </Container>
         </section>
       </main>
@@ -79,7 +111,7 @@ const Categories = () => {
 
 const Page = () => {
   return <Suspense fallback={<p className="mt-5 text-center text-xl">Loading...</p>}>
-    <Categories  />
+    <Categories />
   </Suspense>;
 };
 

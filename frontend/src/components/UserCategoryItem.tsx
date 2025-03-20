@@ -10,7 +10,7 @@ interface ICategoryItemProps {
   setSelected: Dispatch<SetStateAction<number>>;
 }
 
-const CategoryItem = ({category, setIsOpen, setMode, setSelected} : ICategoryItemProps) => {
+const UserCategoryItem = ({category, setIsOpen, setMode, setSelected} : ICategoryItemProps) => {
   return (
     <li
       key={category.category_id}
@@ -41,5 +41,5 @@ const CategoryItem = ({category, setIsOpen, setMode, setSelected} : ICategoryIte
     </li>
   );
 };
-export default CategoryItem;
+export default UserCategoryItem;
 

@@ -1,8 +1,10 @@
 import { FinancialTypeEnum } from '@/interfaces/enum/FinancialTypeEnum';
+import { CategoryTypeEnum } from '@/interfaces/enum/CategoryTypeEnum';
 
 export interface ICategoriesFilterState {
   name: string,
-  type: FinancialTypeEnum | 'all'
+  type: FinancialTypeEnum | 'all' | ''
+  categoryType: CategoryTypeEnum | 'all' | ''
 }
 
 export interface ICategory {

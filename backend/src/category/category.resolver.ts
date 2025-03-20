@@ -1,4 +1,4 @@
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { CategoryService } from './category.service';
 import { CreateCategoryInput } from '../models/category/create-category.input';
 import { CreateCategoryResponse } from '../models/category/create-category.response';
@@ -11,6 +11,7 @@ import { EditCategoryInput } from '../models/category/edit-category.input';
 import { EditCategoryResponse } from '../models/category/edit-category.response';
 import { GetAllCategoriesResponse } from '../models/category/get-all-categories.response';
 import { GetAllCategoriesService } from './get-all-categories/get-all-categories.service';
+import { Request } from 'express';
 
 @Resolver()
 export class CategoryResolver {
@@ -23,22 +24,26 @@ export class CategoryResolver {
   ) {}
 
   @Query(() => GetAllCategoriesResponse)
-  async getAllCategories(): Promise<GetAllCategoriesResponse> {
-    return await this.getAllCategoriesService.getAllCategories();
+  async getAllCategories(
+    @Context('req') req: Request,
+  ): Promise<GetAllCategoriesResponse> {
+    return await this.getAllCategoriesService.getAllCategories(req);
   }
 
   @Mutation(() => CreateCategoryResponse)
   async createCategory(
     @Args('data') args: CreateCategoryInput,
+    @Context('req') req: Request,
   ): Promise<CreateCategoryResponse> {
-    return await this.createCategoryService.createCategory(args);
+    return await this.createCategoryService.createCategory(args, req);
   }
 
   @Mutation(() => EditCategoryResponse)
   async editCategory(
     @Args('data') args: EditCategoryInput,
+    @Context('req') req: Request,
   ): Promise<EditCategoryResponse> {
-    return await this.editCategoryService.editCategory(args);
+    return await this.editCategoryService.editCategory(args, req);
   }
 
   @Mutation(() => DeleteCategoryResponse)

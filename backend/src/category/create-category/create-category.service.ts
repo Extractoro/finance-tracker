@@ -6,32 +6,46 @@ import { CreateCategoryResponse } from '../../models/category/create-category.re
 import { ApolloError } from 'apollo-server-express';
 import { CategoryModel } from '../../models/category/category.model';
 import { FinancialType } from '../../models/enums/financial-type.enum';
+import { Request } from 'express';
+import { extractTokenFromCookies } from '../../utils/cookie';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class CreateCategoryService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly jwtService: JwtService,
+  ) {}
 
   async createCategory(
     @Args('data') args: CreateCategoryInput,
+    req: Request,
   ): Promise<CreateCategoryResponse> {
     try {
       return await this.prisma.$transaction(async (prisma) => {
-        // const existedUser = args.user_id
-        //   ? await prisma.users.findUnique({
-        //       where: {
-        //         user_id: args.user_id,
-        //       },
-        //     })
-        //   : null;
+        const cookieHeader = req.headers.cookie;
+        if (!cookieHeader) {
+          throw new ApolloError('No cookies found', 'NO_COOKIE_HEADER');
+        }
 
-        // if (!existedUser)
-        //   throw new ApolloError('User do not exist', 'USER_DONT_EXIST');
+        const accessToken = extractTokenFromCookies(
+          cookieHeader,
+          'accessToken',
+        );
+        if (!accessToken) {
+          throw new ApolloError('No access token found', 'NO_ACCESS_TOKEN');
+        }
+
+        const decoded = this.jwtService.decode(accessToken) as { sub: string };
+        if (!decoded || !decoded.sub) {
+          throw new ApolloError('Invalid token', 'TOKEN_INVALID');
+        }
 
         const existedCategory = (await prisma.category.findFirst({
           where: {
             name: args.name,
             type: args.type as FinancialType,
-            OR: [{ user_id: args.user_id }, { user_id: null }],
+            OR: [{ user_id: decoded.sub }, { user_id: null }],
           },
         })) as CategoryModel | null;
 
@@ -42,7 +56,7 @@ export class CreateCategoryService {
           );
 
         const createdCategory = await prisma.category.create({
-          data: args,
+          data: { ...args, user_id: decoded.sub },
         });
 
         return {

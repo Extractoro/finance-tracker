@@ -7,20 +7,45 @@ import { ApolloError } from 'apollo-server-express';
 import { CategoryModel } from '../../models/category/category.model';
 import hasChanges from '../../utils/hasChanges';
 import { FinancialType } from '../../models/enums/financial-type.enum';
+import { extractTokenFromCookies } from '../../utils/cookie';
+import { Request } from 'express';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class EditCategoryService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly jwtService: JwtService,
+  ) {}
 
   async editCategory(
     @Args('data') args: EditCategoryInput,
+    req: Request,
   ): Promise<EditCategoryResponse> {
     try {
       return await this.prisma.$transaction(async (prisma) => {
+        const cookieHeader = req.headers.cookie;
+        if (!cookieHeader) {
+          throw new ApolloError('No cookies found', 'NO_COOKIE_HEADER');
+        }
+
+        const accessToken = extractTokenFromCookies(
+          cookieHeader,
+          'accessToken',
+        );
+        if (!accessToken) {
+          throw new ApolloError('No access token found', 'NO_ACCESS_TOKEN');
+        }
+
+        const decoded = this.jwtService.decode(accessToken) as { sub: string };
+        if (!decoded || !decoded.sub) {
+          throw new ApolloError('Invalid token', 'TOKEN_INVALID');
+        }
+
         const existedCategory = (await prisma.category.findUnique({
           where: {
             category_id: args.category_id,
-            user_id: args.user_id,
+            user_id: decoded.sub,
           },
         })) as CategoryModel | null;
 
@@ -50,6 +75,7 @@ export class EditCategoryService {
           },
           where: {
             category_id: args.category_id,
+            user_id: decoded.sub,
           },
         });
 

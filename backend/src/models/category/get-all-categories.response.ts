@@ -13,5 +13,8 @@ export class GetAllCategoriesResponse {
   errorCode?: string | null;
 
   @Field(() => [CategoryModel])
-  categories: CategoryModel[];
+  userCategories: CategoryModel[];
+
+  @Field(() => [CategoryModel])
+  defaultCategories: CategoryModel[];
 }
