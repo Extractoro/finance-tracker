@@ -1,4 +1,4 @@
-import { Args, Mutation, Resolver } from '@nestjs/graphql';
+import { Args, Context, Mutation, Resolver } from '@nestjs/graphql';
 import { SignupInput } from '../models/auth/signup.input';
 import { ConfirmSignupResponse } from '../models/auth/confirm-signup.response';
 import { SignupResponse } from '../models/auth/signup.response';
@@ -8,7 +8,6 @@ import { SigninResponse } from '../models/auth/signin.response';
 import { SigninInput } from '../models/auth/signin.input';
 import { SigninService } from './signin/signin.service';
 import { RefreshTokenResponse } from '../models/auth/refresh-token.response';
-import { RefreshTokenInput } from '../models/auth/refresh-token.input';
 import { AuthService } from './auth.service';
 import { RefreshTokenService } from './refresh-token/refresh-token.service';
 import { ConfirmSignupInput } from '../models/auth/confirm-signup.input';
@@ -21,6 +20,7 @@ import { ResetPasswordService } from './reset-password/reset-password.service';
 import { ResendConfirmService } from './resend-confirm/resend-confirm.service';
 import { ResendConfirmInput } from '../models/auth/resend-confirm.input';
 import { ResendConfirmResponse } from '../models/auth/resend-confirm.response';
+import { Request, Response } from 'express';
 
 @Resolver()
 export class AuthResolver {
@@ -54,9 +54,29 @@ export class AuthResolver {
 
   @Mutation(() => RefreshTokenResponse)
   async refreshToken(
-    @Args('data') args: RefreshTokenInput,
+    @Context('req') req: Request,
+    @Context('res') res: Response,
   ): Promise<RefreshTokenResponse> {
-    return this.refreshTokenService.refreshToken(args);
+    const refreshTokenResponse =
+      await this.refreshTokenService.refreshToken(req);
+
+    res.cookie('accessToken', refreshTokenResponse.access_token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      path: '/',
+      sameSite: 'lax',
+      maxAge: 3 * 60 * 60 * 1000,
+    });
+
+    res.cookie('refreshToken', refreshTokenResponse.refresh_token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      path: '/',
+      sameSite: 'lax',
+      maxAge: 14 * 24 * 60 * 60 * 1000,
+    });
+
+    return refreshTokenResponse;
   }
 
   @Mutation(() => ForgetPasswordResponse)

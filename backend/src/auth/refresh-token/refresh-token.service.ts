@@ -1,26 +1,42 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from '../../prisma.service';
-import { RefreshTokenInput } from '../../models/auth/refresh-token.input';
 import { RefreshTokenResponse } from '../../models/auth/refresh-token.response';
 import { ApolloError } from 'apollo-server-express';
 import { UserModel } from '../../models/user/user.model';
 import * as argon2 from 'argon2';
+import { extractTokenFromCookies } from '../../utils/cookie';
+import { Request } from 'express';
 
 @Injectable()
 export class RefreshTokenService {
   constructor(
-    private jwtService: JwtService,
     private readonly prisma: PrismaService,
+    private jwtService: JwtService,
   ) {}
 
-  async refreshToken({
-    refresh_token,
-  }: RefreshTokenInput): Promise<RefreshTokenResponse> {
+  async refreshToken(req: Request): Promise<RefreshTokenResponse> {
     try {
-      const decoded = this.jwtService.decode(refresh_token) as { sub: string };
+      const cookieHeader = req.headers.cookie;
+      if (!cookieHeader) {
+        throw new ApolloError('No cookies found', 'NO_COOKIE_HEADER');
+      }
+
+      console.log(cookieHeader);
+
+      const refreshToken = extractTokenFromCookies(
+        cookieHeader,
+        'refreshToken',
+      );
+      if (!refreshToken) {
+        throw new ApolloError('No refresh token found', 'NO_REFRESH_TOKEN');
+      }
+
+      const decoded = this.jwtService.decode(refreshToken) as { sub: string };
+      console.log(decoded);
+
       if (!decoded || !decoded.sub) {
-        throw new ApolloError('Invalid refresh token', 'TOKEN_INVALID');
+        throw new ApolloError('Invalid token', 'TOKEN_INVALID');
       }
 
       const user: UserModel | null = await this.prisma.users.findFirst({
@@ -34,25 +50,25 @@ export class RefreshTokenService {
         throw new ApolloError('Refresh token not found', 'TOKEN_NOT_FOUND');
       }
 
-      const isValid = await argon2.verify(user.refresh_token, refresh_token);
+      const isValid = await argon2.verify(user.refresh_token, refreshToken);
       if (!isValid) {
         throw new ApolloError('Invalid refresh token', 'TOKEN_INVALID');
       }
 
-      const accessToken: string = await this.jwtService.signAsync(
+      const newAccessToken: string = await this.jwtService.signAsync(
         { sub: user.user_id },
         {
           expiresIn: '3h',
         },
       );
-      const refreshToken: string = await this.jwtService.signAsync(
+      const newRefreshToken: string = await this.jwtService.signAsync(
         { sub: user.user_id },
         {
           expiresIn: '14d',
         },
       );
 
-      const hashedRefreshToken = await argon2.hash(refreshToken);
+      const hashedRefreshToken = await argon2.hash(newRefreshToken);
 
       await this.prisma.users.update({
         data: { refresh_token: hashedRefreshToken },
@@ -62,8 +78,8 @@ export class RefreshTokenService {
       });
 
       return {
-        access_token: accessToken,
-        refresh_token: refreshToken,
+        access_token: newAccessToken,
+        refresh_token: newRefreshToken,
         success: true,
         message: 'Tokens were updated successfully',
       };

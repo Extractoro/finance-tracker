@@ -38,8 +38,6 @@ export class GoogleOauthController {
       maxAge: 14 * 24 * 60 * 60 * 1000,
     });
 
-    console.log(res.getHeaders());
-
     res.redirect(
       `${this.configService.get('CLIENT_DEV_URL')}/auth/google/callback`,
     );

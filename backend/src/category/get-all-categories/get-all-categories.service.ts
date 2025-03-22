@@ -21,6 +21,8 @@ export class GetAllCategoriesService {
         throw new ApolloError('No cookies found', 'NO_COOKIE_HEADER');
       }
 
+      console.log(cookieHeader);
+
       const accessToken = extractTokenFromCookies(cookieHeader, 'accessToken');
       if (!accessToken) {
         throw new ApolloError('No access token found', 'NO_ACCESS_TOKEN');
