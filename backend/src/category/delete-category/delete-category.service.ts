@@ -14,6 +14,7 @@ export class DeleteCategoryService {
     @Args('data') args: DeleteCategoryInput,
   ): Promise<DeleteCategoryResponse> {
     try {
+      // Cookies user id
       return await this.prisma.$transaction(async (prisma) => {
         const existingCategory = (await prisma.category.findFirst({
           where: {
