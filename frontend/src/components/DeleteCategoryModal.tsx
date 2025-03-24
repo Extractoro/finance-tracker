@@ -6,6 +6,7 @@ import { GraphqlError } from '@/interfaces/graphqlError';
 import { useMutation } from '@apollo/client';
 import { DELETE_CATEGORY } from '@/graphql/mutations/delete-category';
 import { ICategory } from '@/interfaces/categories';
+import { GET_ALL_CATEGORIES } from '@/graphql/queries/getAllCategories';
 
 interface ICategoryModalProps {
   isOpen: boolean;
@@ -14,7 +15,9 @@ interface ICategoryModalProps {
 }
 
 const CategoryModal: React.FC<ICategoryModalProps> = ({ isOpen, setIsOpen, selectedCategory }) => {
-  const [deleteCategory] = useMutation(DELETE_CATEGORY);
+  const [deleteCategory] = useMutation(DELETE_CATEGORY, {
+    refetchQueries: [GET_ALL_CATEGORIES],
+  });
 
   useEffect(() => {
     const handleKeyUp = (e: KeyboardEvent) => {

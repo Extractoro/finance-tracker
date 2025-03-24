@@ -49,7 +49,8 @@ export class CategoryResolver {
   @Mutation(() => DeleteCategoryResponse)
   async deleteCategory(
     @Args('data') args: DeleteCategoryInput,
+    @Context('req') req: Request,
   ): Promise<DeleteCategoryResponse> {
-    return await this.deleteCategoryService.deleteCategory(args);
+    return await this.deleteCategoryService.deleteCategory(args, req);
   }
 }
